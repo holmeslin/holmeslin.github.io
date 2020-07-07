@@ -12,6 +12,17 @@ theme = "hugo-icarus"
 # Comment the themesDir option if you use this theme in production
 #themesDir = "../.."
 
+[markup]
+  [markup.highlight]
+    codeFences = true
+    guessSyntax = false
+    hl_Lines = ""
+    lineNoStart = 1
+    lineNos = false
+    lineNumbersInTable = true
+    noClasses = true
+    style = "monokai"
+    tabWidth = 4
 
 [permalinks]
     post = "/:year/:month/:day/:slug"
@@ -20,7 +31,7 @@ theme = "hugo-icarus"
 [params]
     # Tell me who you are
     author = "Feng-Chi Lin"
-    bio = "Blogger - Programmer - Gopher"
+    bio = "朝向架構師的前進工程師"
     location = "Tainan / Taiwan"
     site_description = ""
     copyright  = "Powered by [Hugo](//gohugo.io). Theme by [PPOffice](https://github.com/ppoffice)."
@@ -38,8 +49,8 @@ theme = "hugo-icarus"
     date_format = "2006-01-02"
 
     # Add custom assets with their paths relative to the static folder
-	custom_css = []
-	custom_js  = []
+	custom_css = [""]
+	custom_js  = ["https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js"]
 
 # Create custom menu entries by defining a label and a link for
 # them. Since you can also link posts, you've the option the
@@ -64,14 +75,14 @@ theme = "hugo-icarus"
 
 # Enter a link for the follow button on the left
 [params.profile]
-    follow_button = "https://github.com/gohugoio"
+    follow_button = "https://github.com/holmeslin"
 
 
 [social]
 # Add your social network accounts to the profile section on the left
 # by entering your username. The links to your account will be
 # created automatically.
-    github          = "gohugoio"
+    github          = "holmeslin"
     gitlab          = ""
     bitbucket       = ""
     jsfiddle        = ""
@@ -95,7 +106,7 @@ theme = "hugo-icarus"
     reddit          = ""
     pinterest       = ""
     googleplus      = ""
-    facebook        = ""
+    facebook        = "fengchilin"
     facebook_admin  = ""
     twitter_domain  = ""
     twitter         = ""
