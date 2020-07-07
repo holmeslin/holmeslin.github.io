@@ -19,15 +19,15 @@ theme = "hugo-icarus"
 
 [params]
     # Tell me who you are
-    author = "John Doe"
+    author = "Feng-Chi Lin"
     bio = "Blogger - Programmer - Gopher"
-    location = "Earth"
+    location = "Tainan / Taiwan"
     site_description = ""
     copyright  = "Powered by [Hugo](//gohugo.io). Theme by [PPOffice](https://github.com/ppoffice)."
     avatar = "css/images/avatar.png"
     # Enter your email address to display your Gravatar icon in the profile. If not set the theme
     # will fallback to the avatar.
-    gravatar = "you@example.com"
+    gravatar = "holmes.lin@gmail.com"
     logo = "css/images/logo.png"
     disable_mathjax = false # set to true to disable MathJax
 
@@ -89,7 +89,7 @@ theme = "hugo-icarus"
     wordpress       = ""
     tumblr          = ""
     xing            = ""
-    linkedin        = ""
+    linkedin        = "holmeslin"
     slideshare      = ""
     stackoverflow   = ""
     reddit          = ""
@@ -98,7 +98,7 @@ theme = "hugo-icarus"
     facebook        = ""
     facebook_admin  = ""
     twitter_domain  = ""
-    twitter         = "gohugoio"
+    twitter         = ""
 
 # Enable and disable widgets for the right sidebar
 [params.widgets]
