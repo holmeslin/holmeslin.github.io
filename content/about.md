@@ -2,6 +2,7 @@
 title: "About"
 date: "2017-05-19T21:49:20+02:00"
 menu: "main"
+weight: 50
 disable_comments: true
 ---
 
@@ -12,4 +13,4 @@ Hi, 這是一個筆記型的部落格的網頁 , 主要是年紀大了記不住�
 ### 相關資訊
 
 - 編譯程式 : `Hugo`
-- 樣式 : [hugo-icarus](https://gitlab.com/toryanderson/hugo-icarus/-/tree/master)
+- 樣式 : [hugo-theme-even](https://github.com/olOwOlo/hugo-theme-even)

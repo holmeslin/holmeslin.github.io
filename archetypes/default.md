@@ -1,15 +1,13 @@
 ---
-title: "{{ replace .Name "-" " " | title }}"
+title: "{{ replace .TranslationBaseName "-" " " | title }}"
 date: {{ .Date }}
-tags:
-    - ""
-categories:
-    - ""
-description:
-menu: 
-banner: "/banners/placeholder.png"
-images:
-    - ""
+lastmod: {{ .Date }}
+draft: true
+keywords: []
+description: ""
+tags: []
+categories: []
+author: ""
 ---
 
 <!--more-->

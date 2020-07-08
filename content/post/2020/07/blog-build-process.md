@@ -1,11 +1,14 @@
 ---
 title: "本站建置過程紀錄"
 date: 2020-07-07T14:29:40+08:00
+draft: false
 tags:
     - "hugo"
 categories:
     - "紀錄"  
 description:
+author: "holmes.lin"
+contentCopyright: ''
 menu: 
 banner: ""
 images:
