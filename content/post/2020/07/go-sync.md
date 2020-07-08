@@ -7,6 +7,8 @@ categories:
     - "紀錄"
     - “學習”
 description:
+author: "holmes.lin"
+contentCopyright: ''
 menu: 
 banner: "/banners/go-banner.jpg"
 images:
@@ -29,7 +31,7 @@ images:
 
 `sync.Mutex` 可能是 `sync` 包中最常使用的 。 它允許在共享資源上互斥訪問 ( 不能同時訪問 ) :
 
-```go {linenos=table,linenostart=1} {linenos=table,linenostart=1}
+```go
 mutex := &sync.Mutex{}
 
 mutex.Lock()
@@ -47,7 +49,7 @@ mutex.Unlock()
 
 但是，它還允許使用 `RLock` 和 `RUnlock` 方法進行並發讀取：
 
-```go {linenos=table,linenostart=1}
+```
 mutex := &sync.RWMutex{}
 
 mutex.Lock()
@@ -83,7 +85,7 @@ BenchmarkRWMutexRLock-4    89403342         15.3 ns/op
 
 在以下範例中，我們將啟動八個 `goroutine`，並等待他們完成：
 
-```go {linenos=table,linenostart=1}
+```go
 wg := &sync.WaitGroup{}
 
 for i := 0; i < 8; i++ {
@@ -122,7 +124,7 @@ wg.Wait()
 
 - 使用 `Range` 遍歷元素。
 
-```go {linenos=table,linenostart=1}
+```go
 m := &sync.Map{}
 
 // 增加元素
@@ -187,7 +189,7 @@ sync.Pool 是一個並發池 ， 負責安全地保存一組對象 。
 
 - `Put(interface{})` 將一個對象加入並發池。
 
-```go {linenos=table,linenostart=1}
+```go
 pool := &sync.Pool{}
 
 pool.Put(NewConnection(1))
@@ -214,7 +216,7 @@ fmt.Printf("%d\n", connection.id)
 
 還可以為 sync.Pool 指定一個創建者方法：
 
-```go {linenos=table,linenostart=1}
+```go
 pool := &sync.Pool{
   New: func() interface{} {
     return NewConnection()
@@ -242,7 +244,7 @@ connection := pool.Get().(*Connection)
 
 然後，`defer` 操作是將緩衝區放回 `sync.Pool`中。
 
-```go {linenos=table,linenostart=1}
+```go
 
 func writeFile(pool *sync.Pool, filename string) error {
     buf := pool.Get().(*bytes.Buffer)
@@ -265,7 +267,7 @@ sync.Once 是一個簡單而強大的函式，可確保一個函數僅執行一�
 
 在下面的示例中，只有一個 goroutine 會顯示輸出消息：
 
-```go {linenos=table,linenostart=1}
+```go
 once := &sync.Once{}
 for i := 0; i < 4; i++ {
     i := i
@@ -293,7 +295,7 @@ cond := sync.NewCond(&sync.Mutex{})
 
 然後，讓我們編寫負責顯示切片的第一個元素的函數：
 
-```go {linenos=table,linenostart=1}
+```go
 func printFirstElement(s []int, cond \*sync.Cond) {
     cond.L.Lock()
     cond.Wait()
@@ -312,7 +314,7 @@ func printFirstElement(s []int, cond \*sync.Cond) {
 
 然後我們調用 `get()` 函數，將結果存儲在 `s[0]` 中並發出信號：
 
-```go {linenos=table,linenostart=1}
+```go
 s := make([]int, 1)
 for i := 0; i < runtime.NumCPU(); i++ {
     o printFirstElement(s, cond)
@@ -337,7 +339,7 @@ cond.L.Unlock()
 
 我們修改一下上面的示例，把 `Signal()` 調用改為調用 `Broadcast()`。
 
-```go {linenos=table,linenostart=1}
+```go
 i := get()
 cond.L.Lock()
 s[0] = i
