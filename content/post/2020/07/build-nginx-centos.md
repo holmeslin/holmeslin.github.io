@@ -2,7 +2,6 @@
 title: "編譯原始碼安裝 Nginx 在 REHL / CentOS 環境下"
 date: 2020-07-09T14:01:14+08:00
 lastmod: 2020-07-09T14:01:14+08:00
-draft: true
 keywords: []
 description: ""
 tags: ["nginx","server","centos"]
