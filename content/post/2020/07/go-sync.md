@@ -7,7 +7,7 @@ categories:
     - "紀錄"
     - “學習”
 description:
-author: "holmes.lin"
+author: ""
 contentCopyright: ''
 menu: 
 banner: "/banners/go-banner.jpg"

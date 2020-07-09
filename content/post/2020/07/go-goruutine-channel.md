@@ -2,12 +2,12 @@
 title: "Goroutine 和 Channel 講解"
 date: 2020-07-08T10:36:17+08:00
 lastmod: 2020-07-08T10:36:17+08:00
-draft: false
+author: ""
 keywords: []
 description: ""
 tags: ["golang"]
-categories: ["紀錄","“學習”"]
-author: "holmees.lin"
+categories: ["紀錄","學習"]
+author: ""
 ---
 
 ## 前言
