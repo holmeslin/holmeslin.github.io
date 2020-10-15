@@ -1,0 +1,291 @@
+<!doctype html><html lang=zh-tw><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge,chrome=1"><title>Goroutine 和 Channel 講解 - Feng-Chi&#39;s Note-Take</title><meta name=renderer content=webkit><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1"><meta http-equiv=cache-control content=no-transform><meta http-equiv=cache-control content=no-siteapp><meta name=theme-color content=#f8f5ec><meta name=msapplication-navbutton-color content=#f8f5ec><meta name=apple-mobile-web-app-capable content=yes><meta name=apple-mobile-web-app-status-bar-style content=#f8f5ec><meta name=author content=Feng-Chi><meta name=description content="前言 Go 語言中並發程序可以用兩種方式來實現。
+一種是 goroutine 和 channel，其支持 &amp;ldquo;交談循序程式&amp;rdquo;（communicating sequential processes）或被簡稱為 CSP。
+CSP 是一個現代的並發程式模型，在這種程式模型中值會在不同的運行實例(goroutine)中傳遞，儘管大多數情況下被限制在單一實例中。
+另一種是傳統的並發模型，多線程共享內存(基於共享變量的並發) ， 會在後續單獨闡述。"><meta name=keywords content=blog,note,note-take><meta name=generator content="Hugo 0.57.2 with theme even"><link rel=canonical href=https://holmeslin.github.io/post/2020/07/go-goruutine-channel/><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=manifest href=/manifest.json><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link href=/sass/main.min.6eb09ed45a88bd339269c14515d2a11f2e0afdadbdd763d83f9b5c797166b081.css rel=stylesheet><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin=anonymous><meta property=og:title content="Goroutine 和 Channel 講解"><meta property=og:description content="前言
+
+Go 語言中並發程序可以用兩種方式來實現。
+
+一種是 goroutine 和 channel，其支持 &ldquo;交談循序程式&rdquo;（communicating sequential processes）或被簡稱為 CSP。
+
+CSP 是一個現代的並發程式模型，在這種程式模型中值會在不同的運行實例(goroutine)中傳遞，儘管大多數情況下被限制在單一實例中。
+
+另一種是傳統的並發模型，多線程共享內存(基於共享變量的並發) ， 會在後續單獨闡述。"><meta property=og:type content=article><meta property=og:url content=https://holmeslin.github.io/post/2020/07/go-goruutine-channel/><meta property=article:published_time content=2020-07-08T10:36:17+08:00><meta property=article:modified_time content=2020-07-08T10:36:17+08:00><meta itemprop=name content="Goroutine 和 Channel 講解"><meta itemprop=description content="前言
+
+Go 語言中並發程序可以用兩種方式來實現。
+
+一種是 goroutine 和 channel，其支持 &ldquo;交談循序程式&rdquo;（communicating sequential processes）或被簡稱為 CSP。
+
+CSP 是一個現代的並發程式模型，在這種程式模型中值會在不同的運行實例(goroutine)中傳遞，儘管大多數情況下被限制在單一實例中。
+
+另一種是傳統的並發模型，多線程共享內存(基於共享變量的並發) ， 會在後續單獨闡述。"><meta itemprop=datePublished content=2020-07-08T10:36:17&#43;08:00><meta itemprop=dateModified content=2020-07-08T10:36:17&#43;08:00><meta itemprop=wordCount content=1740><meta itemprop=keywords content=golang,><meta name=twitter:card content=summary><meta name=twitter:title content="Goroutine 和 Channel 講解"><meta name=twitter:description content="前言
+
+Go 語言中並發程序可以用兩種方式來實現。
+
+一種是 goroutine 和 channel，其支持 &ldquo;交談循序程式&rdquo;（communicating sequential processes）或被簡稱為 CSP。
+
+CSP 是一個現代的並發程式模型，在這種程式模型中值會在不同的運行實例(goroutine)中傳遞，儘管大多數情況下被限制在單一實例中。
+
+另一種是傳統的並發模型，多線程共享內存(基於共享變量的並發) ， 會在後續單獨闡述。"><!--[if lte IE 9]><script src=https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js></script><![endif]--><!--[if lt IE 9]><script src=https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js></script><script src=https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js></script><![endif]--></head><body><div id=mobile-navbar class=mobile-navbar><div class=mobile-header-logo><a href=/ class=logo>Feng-Chi</a></div><div class=mobile-navbar-icon><span></span><span></span><span></span></div></div><nav id=mobile-menu class="mobile-menu slideout-menu"><ul class=mobile-menu-list><a href=/><li class=mobile-menu-item>Home</li></a><a href=/post/><li class=mobile-menu-item>Archives</li></a><a href=/tags/><li class=mobile-menu-item>Tags</li></a><a href=/categories/><li class=mobile-menu-item>Categories</li></a><a href=/about/><li class=mobile-menu-item>About</li></a></ul></nav><div class=container id=mobile-panel><header id=header class=header><div class=logo-wrapper><a href=/ class=logo>Feng-Chi</a></div><nav class=site-navbar><ul id=menu class=menu><li class=menu-item><a class=menu-item-link href=/>Home</a></li><li class=menu-item><a class=menu-item-link href=/post/>Archives</a></li><li class=menu-item><a class=menu-item-link href=/tags/>Tags</a></li><li class=menu-item><a class=menu-item-link href=/categories/>Categories</a></li><li class=menu-item><a class=menu-item-link href=/about/>About</a></li></ul></nav></header><main id=main class=main><div class=content-wrapper><div id=content class=content><article class=post><header class=post-header><h1 class=post-title>Goroutine 和 Channel 講解</h1><div class=post-meta><span class=post-time>2020-07-08</span><div class=post-category><a href=/categories/%E7%B4%80%E9%8C%84/>紀錄</a>
+<a href=/categories/%E5%AD%B8%E7%BF%92/>學習</a></div></div></header><div class=post-toc id=post-toc><h2 class=post-toc-title>文章目錄</h2><div class="post-toc-content always-active"><nav id=TableOfContents><ul><li><ul><li><a href=#前言>前言</a></li><li><a href=#goroutine>goroutine</a></li><li><a href=#channel>channel</a><ul><li><a href=#帶緩存的-channel>帶緩存的 channel</a></li></ul></li><li><a href=#select>select</a></li><li><a href=#超時控制>超時控制</a></li></ul></li></ul></nav></div></div><div class=post-content><h2 id=前言>前言</h2><p>Go 語言中並發程序可以用兩種方式來實現。</p><p>一種是 <code>goroutine</code> 和 <code>channel</code>，其支持 &ldquo;交談循序程式&rdquo;（communicating sequential processes）或被簡稱為 CSP。</p><p>CSP 是一個現代的並發程式模型，在這種程式模型中值會在不同的運行實例(goroutine)中傳遞，儘管大多數情況下被限制在單一實例中。</p><p>另一種是傳統的並發模型，多線程共享內存(基於共享變量的並發) ， 會在後續單獨闡述。</p><h2 id=goroutine>goroutine</h2><p><code>goroutine</code> 是一個輕量級的線程 ， 它與線程的區別是線程是操作系統中對於一個獨立運行實例的描述，不同的操作系統中，線程的實現也不盡相同；</p><p>對於 goroutine，操作系統並不知道它的存在 ， <code>goroutine</code> 的調度是 Go 語言的運行時進行管理的。</p><p>啟動線程雖然比進程使用的資源少 ， 但依然需要上下文切換等大量工作 ， Go 語言有自己的調度器 ， 許多 <code>goroutine</code> 的數據都是共享的 ， 因此 <code>goroutine</code> 之間的切換會快很多 ， 啟動 <code>goroutine</code> 所耗費的資源也很少。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code class=language-go data-lang=go><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-go data-lang=go><span class=kn>package</span> <span class=nx>main</span>
+
+<span class=kn>import</span> <span class=p>(</span>
+    <span class=s>&#34;fmt&#34;</span>
+    <span class=s>&#34;strconv&#34;</span>
+<span class=p>)</span>
+
+<span class=kd>func</span> <span class=nf>Info</span><span class=p>(</span><span class=nx>name</span> <span class=kt>string</span><span class=p>)</span>  <span class=p>{</span>
+    <span class=k>for</span> <span class=nx>i</span> <span class=o>:=</span> <span class=mi>0</span><span class=p>;</span> <span class=nx>i</span> <span class=p>&lt;</span> <span class=mi>3</span><span class=p>;</span> <span class=nx>i</span><span class=o>++</span> <span class=p>{</span>
+        <span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=nx>name</span> <span class=o>+</span> <span class=s>&#34;:&#34;</span> <span class=o>+</span> <span class=nx>strconv</span><span class=p>.</span><span class=nf>Itoa</span><span class=p>(</span><span class=nx>i</span><span class=p>))</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+
+<span class=kd>func</span> <span class=nf>main</span><span class=p>()</span>  <span class=p>{</span>
+    <span class=nf>Info</span><span class=p>(</span><span class=s>&#34;info&#34;</span><span class=p>)</span>
+
+    <span class=k>go</span> <span class=nf>Info</span><span class=p>(</span><span class=s>&#34;goroutine1&#34;</span><span class=p>)</span>
+
+    <span class=k>go</span> <span class=kd>func</span><span class=p>(</span><span class=nx>name</span> <span class=kt>string</span><span class=p>)</span> <span class=p>{</span>
+        <span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=nx>name</span><span class=p>)</span>
+    <span class=p>}(</span><span class=s>&#34;goroutine2&#34;</span><span class=p>)</span>
+
+    <span class=kd>var</span> <span class=nx>input</span> <span class=kt>string</span>
+    <span class=nx>fmt</span><span class=p>.</span><span class=nf>Scanln</span><span class=p>(</span><span class=o>&amp;</span><span class=nx>input</span><span class=p>)</span>
+    <span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=s>&#34;done&#34;</span><span class=p>)</span>
+<span class=p>}</span></code></pre></td></tr></table></div></div><h2 id=channel>channel</h2><p><code>channel</code> 被稱為通道 ， 是連接並發 <code>goroutine</code> 的管道 ， 可以從一個 <code>goroutine</code> 向通道發送值 ， 並在另一個 <code>goroutine</code> 中接收到這些值 。</p><p>每個 <code>channel</code> 都有一個特殊的類型 ， 也就是 <code>channel</code> 可發送數據的類型 。 一個可以發送 <code>int</code> 類型數據的 <code>channel</code> 一般寫為 <code>chan int</code>。</p><p>一個 <code>channel</code> 有發送和接收兩個主要操作 ， 都是通信行為 。</p><p>一個發送語句將一個值從一個 <code>goroutine</code> 通過 <code>channel</code> 發送到另一個執行接收操作的 goroutine 。</p><p>發送和接收兩個操作都是用 <code>&lt;-</code> 運算符 。</p><p>在發送語句中 ， <code>&lt;-</code> 運算符分割 <code>channel</code> 和要發送的值 ； 在接收語句中 ， <code>&lt;-</code> 運算符寫在 <code>channel</code> 對象之前 ， 一個不使用接收結果的接收操作也是合法的。</p><p><code>channel</code> 的發送操作將導致發送者 <code>goroutine</code> 阻塞 ， 直到另一個 <code>goroutine</code> 在相同的 <code>channel</code> 上執行接收操作 ， 當發送的值通過 <code>channel</code> 成功傳輸之後 ， 兩個 <code>goroutine</code> 可以繼續執行後面的語句 。</p><p>反之 ， 如果接收操作先發生 ， 那麼接收者 <code>goroutine</code> 也將阻塞 ， 直到有另一個 <code>goroutine</code> 在相同的 <code>Channels</code> 上執行發送操作。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code class=language-go data-lang=go><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-go data-lang=go><span class=kn>package</span> <span class=nx>main</span>
+
+<span class=kn>import</span> <span class=p>(</span>
+    <span class=s>&#34;fmt&#34;</span>
+    <span class=s>&#34;strconv&#34;</span>
+<span class=p>)</span>
+
+<span class=kd>func</span> <span class=nf>Info</span><span class=p>(</span><span class=nx>i</span> <span class=kt>int</span><span class=p>,</span> <span class=nx>ch</span> <span class=kd>chan</span> <span class=kt>string</span><span class=p>)</span>  <span class=p>{</span>
+    <span class=nx>msg</span> <span class=o>:=</span> <span class=s>&#34;訊息&#34;</span> <span class=o>+</span> <span class=nx>strconv</span><span class=p>.</span><span class=nf>Itoa</span><span class=p>(</span><span class=nx>i</span><span class=p>)</span>
+    <span class=nx>ch</span> <span class=o>&lt;-</span> <span class=nx>msg</span>
+<span class=p>}</span>
+
+<span class=kd>func</span> <span class=nf>main</span><span class=p>()</span>  <span class=p>{</span>
+    <span class=nx>chs</span> <span class=o>:=</span> <span class=nb>make</span><span class=p>([]</span><span class=kd>chan</span> <span class=kt>string</span><span class=p>,</span> <span class=mi>3</span><span class=p>)</span>
+    <span class=k>for</span> <span class=nx>i</span> <span class=o>:=</span> <span class=mi>0</span><span class=p>;</span> <span class=nx>i</span> <span class=p>&lt;</span> <span class=mi>3</span><span class=p>;</span> <span class=nx>i</span><span class=o>++</span> <span class=p>{</span>
+        <span class=nx>chs</span><span class=p>[</span><span class=nx>i</span><span class=p>]</span> <span class=p>=</span> <span class=nb>make</span><span class=p>(</span><span class=kd>chan</span> <span class=kt>string</span><span class=p>)</span>
+        <span class=k>go</span> <span class=nf>Info</span><span class=p>(</span><span class=nx>i</span><span class=p>,</span> <span class=nx>chs</span><span class=p>[</span><span class=nx>i</span><span class=p>])</span>
+    <span class=p>}</span>
+
+    <span class=k>for</span> <span class=nx>num</span><span class=p>,</span> <span class=nx>ch</span> <span class=o>:=</span> <span class=k>range</span> <span class=nx>chs</span> <span class=p>{</span>
+        <span class=nx>msg</span> <span class=o>:=</span> <span class=o>&lt;-</span> <span class=nx>ch</span>
+        <span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=nx>num</span><span class=p>,</span> <span class=nx>msg</span><span class=p>)</span>
+    <span class=p>}</span>
+
+    <span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=s>&#34;Done&#34;</span><span class=p>)</span>
+<span class=p>}</span></code></pre></td></tr></table></div></div><p><code>channel</code> 還支持 <code>close</code> 操作 ， 用於關閉 <code>channel</code> ， 隨後對基於該 <code>channel</code> 的任何發送操作都將導致 <code>Panic</code> 異常 。</p><p>對一個已經被 <code>close</code> 過的 <code>channel</code> 接收操作依然可以接受到之前已經成功發送的數據 ； 如果 <code>channel</code> 中已經沒有數據的話將產生一個零值(nil)的數據 。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code class=language-go data-lang=go><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-go data-lang=go><span class=nb>close</span><span class=p>(</span><span class=nx>ch</span><span class=p>)</span></code></pre></td></tr></table></div></div><h3 id=帶緩存的-channel>帶緩存的 channel</h3><p>帶緩存的 <code>channel</code> 內部有一個元素隊列 。 隊列的最大容量是在調用 <code>make</code> 函數創建 <code>channel</code> 時通過第二個參數指定的 。
+下面的語法創建了一個可以持有三個字符串元素的帶緩存 <code>channel</code> 。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code class=language-go data-lang=go><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-go data-lang=go><span class=nx>ch</span> <span class=p>=</span> <span class=nb>make</span><span class=p>(</span><span class=kd>chan</span> <span class=kt>string</span><span class=p>,</span> <span class=mi>3</span><span class=p>)</span></code></pre></td></tr></table></div></div><p>向緩存 <code>channel</code> 的發送操作就是向內部緩存隊列的尾部插入元素 ， 接收操作則是從隊列的頭部刪除元素 。</p><p>如果內部緩存隊列是滿的 ， 那麼發送操作將阻塞直到另一個 <code>goroutine</code> 執行接收操作而釋放了新的隊列空間。</p><p>相反，如果 <code>channel</code> 是空的 ， 接收操作將阻塞直到有另一個 <code>goroutine</code> 執行發送操作而向隊列插入元素 。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code class=language-go data-lang=go><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-go data-lang=go><span class=kn>package</span> <span class=nx>main</span>
+
+<span class=kn>import</span> <span class=p>(</span>
+    <span class=s>&#34;fmt&#34;</span>
+<span class=p>)</span>
+
+<span class=kd>func</span> <span class=nf>main</span><span class=p>()</span>  <span class=p>{</span>
+    <span class=nx>ch</span> <span class=o>:=</span> <span class=nb>make</span><span class=p>(</span><span class=kd>chan</span> <span class=kt>string</span><span class=p>,</span> <span class=mi>3</span><span class=p>)</span>
+
+    <span class=nx>ch</span> <span class=o>&lt;-</span> <span class=s>&#34;A&#34;</span>
+    <span class=nx>ch</span> <span class=o>&lt;-</span> <span class=s>&#34;B&#34;</span>
+    <span class=nx>ch</span> <span class=o>&lt;-</span> <span class=s>&#34;C&#34;</span>
+
+    <span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=o>&lt;-</span><span class=nx>ch</span><span class=p>)</span>
+    <span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=o>&lt;-</span><span class=nx>ch</span><span class=p>)</span>
+    <span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=o>&lt;-</span><span class=nx>ch</span><span class=p>)</span>
+<span class=p>}</span></code></pre></td></tr></table></div></div><h2 id=select>select</h2><p>Go 語言的 <code>select</code> 的功能和 <code>select、poll、epoll</code> 相似 ， 就是監聽 IO 操作 ， 當 IO 操作發生時 ， 觸發響應的動作 。</p><p><code>select</code> 語法和 <code>switch</code> 相似 ， 也會有幾個 <code>case</code> 和 <code>default</code> 分支 ， 每一個 <code>case</code> 代表一個通信操作(在某個 <code>channel</code> 上進行發送或者接收)並且會包含一些語句組成一個語句塊。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code class=language-go data-lang=go><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-go data-lang=go><span class=kn>package</span> <span class=nx>main</span>
+
+<span class=kn>import</span> <span class=p>(</span>
+    <span class=s>&#34;fmt&#34;</span>
+    <span class=s>&#34;strconv&#34;</span>
+<span class=p>)</span>
+
+<span class=kd>func</span> <span class=nf>main</span><span class=p>()</span>  <span class=p>{</span>
+    <span class=nx>ch1</span> <span class=o>:=</span> <span class=nb>make</span><span class=p>(</span><span class=kd>chan</span> <span class=kt>string</span><span class=p>)</span>
+    <span class=nx>ch2</span> <span class=o>:=</span> <span class=nb>make</span><span class=p>(</span><span class=kd>chan</span> <span class=kt>string</span><span class=p>)</span>
+
+    <span class=k>go</span> <span class=kd>func</span><span class=p>()</span> <span class=p>{</span>
+        <span class=nx>ch1</span> <span class=o>&lt;-</span> <span class=s>&#34;I am from ch1&#34;</span>
+    <span class=p>}()</span>
+
+    <span class=k>go</span> <span class=kd>func</span><span class=p>()</span> <span class=p>{</span>
+        <span class=nx>ch2</span> <span class=o>&lt;-</span> <span class=s>&#34;I am from ch2&#34;</span>
+    <span class=p>}()</span>
+
+    <span class=k>for</span> <span class=nx>i</span> <span class=o>:=</span> <span class=mi>0</span><span class=p>;</span> <span class=nx>i</span> <span class=p>&lt;</span> <span class=mi>2</span><span class=p>;</span> <span class=nx>i</span><span class=o>++</span> <span class=p>{</span>
+        <span class=k>select</span> <span class=p>{</span>
+        <span class=k>case</span> <span class=nx>msg1</span> <span class=o>:=</span> <span class=o>&lt;-</span> <span class=nx>ch1</span><span class=p>:</span>
+            <span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=s>&#34;received-&#34;</span><span class=o>+</span><span class=nx>strconv</span><span class=p>.</span><span class=nf>Itoa</span><span class=p>(</span><span class=nx>i</span><span class=p>),</span> <span class=nx>msg1</span><span class=p>)</span>
+        <span class=k>case</span> <span class=nx>msg2</span> <span class=o>:=</span> <span class=o>&lt;-</span> <span class=nx>ch2</span><span class=p>:</span>
+            <span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=s>&#34;received-&#34;</span><span class=o>+</span><span class=nx>strconv</span><span class=p>.</span><span class=nf>Itoa</span><span class=p>(</span><span class=nx>i</span><span class=p>),</span> <span class=nx>msg2</span><span class=p>)</span>
+        <span class=p>}</span>
+    <span class=p>}</span>
+<span class=p>}</span></code></pre></td></tr></table></div></div><h2 id=超時控制>超時控制</h2><p><code>select</code> 是用來讓我們的程序監聽多個文件句柄的狀態變化的處理機制 。</p><p>當發起一些阻塞的請求後 ， 可以用 <code>select</code> 機制輪詢掃描文件句柄 ， 直到被監視的文件句柄有一個或多個發生了狀態改變。</p><p><code>channel</code> 在系統層面來說也是個文件描述符 ， 在 Go 語言中我們可以用 <code>goroutine</code> 並發執行任務 ， 接著使用 <code>select</code> 來監視每個任務的 <code>channel</code> 情況 。</p><p>如果這幾個任務都長時間沒有回复 <code>channel</code> 信息 ， 並且我們又有超時的需求 ， 那麼我們可以使用一個 <code>goroutine</code> 來設置超時機制 ， 具體做法就是啟動 <code>sleep</code> 並且在 <code>sleep</code> 之後回复 <code>channel</code> 信號。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code class=language-go data-lang=go><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-go data-lang=go><span class=kn>package</span> <span class=nx>main</span>
+
+<span class=kn>import</span> <span class=p>(</span>
+    <span class=s>&#34;fmt&#34;</span>
+    <span class=s>&#34;time&#34;</span>
+<span class=p>)</span>
+
+<span class=kd>func</span> <span class=nf>main</span><span class=p>()</span>  <span class=p>{</span>
+    <span class=nx>ch</span> <span class=o>:=</span> <span class=nb>make</span><span class=p>(</span><span class=kd>chan</span> <span class=kt>string</span><span class=p>)</span>
+    <span class=nx>timeout</span> <span class=o>:=</span> <span class=nb>make</span><span class=p>(</span><span class=kd>chan</span> <span class=kt>bool</span><span class=p>)</span>
+
+    <span class=k>go</span> <span class=kd>func</span><span class=p>()</span> <span class=p>{</span>
+        <span class=nx>time</span><span class=p>.</span><span class=nf>Sleep</span><span class=p>(</span><span class=mi>5</span> <span class=o>*</span> <span class=nx>time</span><span class=p>.</span><span class=nx>Second</span><span class=p>)</span>
+        <span class=nx>timeout</span> <span class=o>&lt;-</span> <span class=kc>true</span>
+    <span class=p>}()</span>
+
+    <span class=k>go</span> <span class=kd>func</span><span class=p>()</span> <span class=p>{</span>
+        <span class=nx>time</span><span class=p>.</span><span class=nf>Sleep</span><span class=p>(</span><span class=mi>10</span> <span class=o>*</span> <span class=nx>time</span><span class=p>.</span><span class=nx>Second</span><span class=p>)</span>
+        <span class=nx>ch</span> <span class=o>&lt;-</span> <span class=s>&#34;Hello World&#34;</span>
+    <span class=p>}()</span>
+
+    <span class=k>select</span> <span class=p>{</span>
+    <span class=k>case</span> <span class=nx>msg</span> <span class=o>:=</span> <span class=o>&lt;-</span> <span class=nx>ch</span><span class=p>:</span>
+        <span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=nx>msg</span><span class=p>)</span>
+    <span class=k>case</span> <span class=o>&lt;-</span> <span class=nx>timeout</span><span class=p>:</span>
+        <span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=s>&#34;task is timeout&#34;</span><span class=p>)</span>
+    <span class=p>}</span>
+<span class=p>}</span></code></pre></td></tr></table></div></div></div><div class=post-copyright><p class=copyright-item><span class=item-title>文章作者</span>
+<span class=item-content>Feng-Chi</span></p><p class=copyright-item><span class=item-title>上次更新</span>
+<span class=item-content>2020-07-08</span></p><p class=copyright-item><span class=item-title>許可協議</span>
+<span class=item-content><a rel="license noopener" href=https://creativecommons.org/licenses/by-nc-nd/4.0/ target=_blank>CC BY-NC-ND 4.0</a></span></p></div><footer class=post-footer><div class=post-tags><a href=/tags/golang/>golang</a></div><nav class=post-nav><a class=prev href=/post/2020/07/build-nginx-centos/><i class="iconfont icon-left"></i><span class="prev-text nav-default">編譯原始碼安裝 Nginx 在 REHL / CentOS 環境下</span>
+<span class="prev-text nav-mobile">上一篇</span></a>
+<a class=next href=/post/2020/07/go-sync/><span class="next-text nav-default">Go 語言 sync 包的應用詳解</span>
+<span class="next-text nav-mobile">下一篇</span>
+<i class="iconfont icon-right"></i></a></nav></footer></article></div><div id=comments-gitment></div><link rel=stylesheet href=https://cdn.jsdelivr.net/gh/theme-next/theme-next-gitment@1/default.min.css crossorigin=anonymous><script src=https://cdn.jsdelivr.net/gh/theme-next/theme-next-gitment@1/gitment.browser.min.js crossorigin=anonymous></script><script type=text/javascript>var gitment=new Gitment({id:'2020-07-08 10:36:17 \x2b0800 \x2b0800',title:'Goroutine 和 Channel 講解',link:decodeURI(location.href),desc:'\x3ch2 id=\x22前言\x22\x3e前言\x3c\/h2\x3e\n\n\x3cp\x3eGo 語言中並發程序可以用兩種方式來實現。\x3c\/p\x3e\n\n\x3cp\x3e一種是 \x3ccode\x3egoroutine\x3c\/code\x3e 和 \x3ccode\x3echannel\x3c\/code\x3e，其支持 \x26ldquo;交談循序程式\x26rdquo;（communicating sequential processes）或被簡稱為 CSP。\x3c\/p\x3e\n\n\x3cp\x3eCSP 是一個現代的並發程式模型，在這種程式模型中值會在不同的運行實例(goroutine)中傳遞，儘管大多數情況下被限制在單一實例中。\x3c\/p\x3e\n\n\x3cp\x3e另一種是傳統的並發模型，多線程共享內存(基於共享變量的並發) ， 會在後續單獨闡述。\x3c\/p\x3e',owner:'holmeslin',repo:'holmeslin.github.io',oauth:{client_id:'05f414719d56905a1d49',client_secret:'7d76251defef60a6cc6aa55627c7c2f51b7429b0'}});gitment.render('comments-gitment');</script><noscript>Please enable JavaScript to view the <a href=https://github.com/imsun/gitment>comments powered by gitment.</a></noscript></div></main><footer id=footer class=footer><div class=social-links><a href=mailto:holmes.lin@gmail.com class="iconfont icon-email" title=email></a><a href=https://facebook.com/fengchilin class="iconfont icon-facebook" title=facebook></a><a href=https://www.linkedin.com/in/holmeslin/ class="iconfont icon-linkedin" title=linkedin></a><a href=https://github.com/holmeslin class="iconfont icon-github" title=github></a><a href=https://holmeslin.github.io/index.xml type=application/rss+xml class="iconfont icon-rss" title=rss></a></div><div class=copyright><span class=power-by>Powered by <a class=hexo-link href=https://gohugo.io>Hugo</a></span>
+<span class=division>|</span>
+<span class=theme-info>Theme -
+<a class=theme-link href=https://github.com/olOwOlo/hugo-theme-even>Even</a></span>
+<span class=copyright-year>&copy;
+2019 -
+2020
+<span class=heart><i class="iconfont icon-heart"></i></span><span class=author>Feng-Chi</span></span></div></footer><div class=back-to-top id=back-to-top><i class="iconfont icon-up"></i></div></div><script src=https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin=anonymous></script><script src=https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin=anonymous></script><script src=https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin=anonymous></script><script type=text/javascript src=/js/main.min.d7b7ada643c9c1a983026e177f141f7363b4640d619caf01d8831a6718cd44ea.js></script></body></html>

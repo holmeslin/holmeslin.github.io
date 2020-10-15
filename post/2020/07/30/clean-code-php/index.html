@@ -1,0 +1,2643 @@
+<!doctype html><html lang=zh-tw><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge,chrome=1"><title>Clean Code 系列 - PHP - Feng-Chi&#39;s Note-Take</title><meta name=renderer content=webkit><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1"><meta http-equiv=cache-control content=no-transform><meta http-equiv=cache-control content=no-siteapp><meta name=theme-color content=#f8f5ec><meta name=msapplication-navbutton-color content=#f8f5ec><meta name=apple-mobile-web-app-capable content=yes><meta name=apple-mobile-web-app-status-bar-style content=#f8f5ec><meta name=author content=Feng-Chi><meta name=description content><meta name=keywords content="clean code,php"><meta name=generator content="Hugo 0.57.2 with theme even"><link rel=canonical href=https://holmeslin.github.io/post/2020/07/30/clean-code-php/><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=manifest href=/manifest.json><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link href=/sass/main.min.6eb09ed45a88bd339269c14515d2a11f2e0afdadbdd763d83f9b5c797166b081.css rel=stylesheet><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin=anonymous><meta property=og:title content="Clean Code 系列 - PHP"><meta property=og:description content><meta property=og:type content=article><meta property=og:url content=https://holmeslin.github.io/post/2020/07/30/clean-code-php/><meta property=article:published_time content=2020-07-30T08:10:05+08:00><meta property=article:modified_time content=2020-07-30T08:10:05+08:00><meta itemprop=name content="Clean Code 系列 - PHP"><meta itemprop=description content><meta itemprop=datePublished content=2020-07-30T08:10:05&#43;08:00><meta itemprop=dateModified content=2020-07-30T08:10:05&#43;08:00><meta itemprop=wordCount content=7297><meta itemprop=keywords content="clean code,php,"><meta name=twitter:card content=summary><meta name=twitter:title content="Clean Code 系列 - PHP"><meta name=twitter:description content><!--[if lte IE 9]><script src=https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js></script><![endif]--><!--[if lt IE 9]><script src=https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js></script><script src=https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js></script><![endif]--></head><body><div id=mobile-navbar class=mobile-navbar><div class=mobile-header-logo><a href=/ class=logo>Feng-Chi</a></div><div class=mobile-navbar-icon><span></span><span></span><span></span></div></div><nav id=mobile-menu class="mobile-menu slideout-menu"><ul class=mobile-menu-list><a href=/><li class=mobile-menu-item>Home</li></a><a href=/post/><li class=mobile-menu-item>Archives</li></a><a href=/tags/><li class=mobile-menu-item>Tags</li></a><a href=/categories/><li class=mobile-menu-item>Categories</li></a><a href=/about/><li class=mobile-menu-item>About</li></a></ul></nav><div class=container id=mobile-panel><header id=header class=header><div class=logo-wrapper><a href=/ class=logo>Feng-Chi</a></div><nav class=site-navbar><ul id=menu class=menu><li class=menu-item><a class=menu-item-link href=/>Home</a></li><li class=menu-item><a class=menu-item-link href=/post/>Archives</a></li><li class=menu-item><a class=menu-item-link href=/tags/>Tags</a></li><li class=menu-item><a class=menu-item-link href=/categories/>Categories</a></li><li class=menu-item><a class=menu-item-link href=/about/>About</a></li></ul></nav></header><main id=main class=main><div class=content-wrapper><div id=content class=content><article class=post><header class=post-header><h1 class=post-title>Clean Code 系列 - PHP</h1><div class=post-meta><span class=post-time>2020-07-30</span><div class=post-category><a href=/categories/%E5%AD%B8%E7%BF%92/>學習</a>
+<a href=/categories/%E7%B4%80%E9%8C%84/>紀錄</a></div></div></header><div class=post-toc id=post-toc><h2 class=post-toc-title>文章目錄</h2><div class="post-toc-content always-active"><nav id=TableOfContents><ul><li><a href=#clean-code-php>Clean Code PHP</a><ul><li><a href=#table-of-contents>Table of Contents</a></li><li><a href=#introduction>Introduction</a></li><li><a href=#variables>Variables</a><ul><li><a href=#use-meaningful-and-pronounceable-variable-names>Use meaningful and pronounceable variable names</a></li><li><a href=#use-the-same-vocabulary-for-the-same-type-of-variable>Use the same vocabulary for the same type of variable</a></li><li><a href=#use-searchable-names-part-1>Use searchable names (part 1)</a></li><li><a href=#use-searchable-names-part-2>Use searchable names (part 2)</a></li><li><a href=#use-explanatory-variables>Use explanatory variables</a></li><li><a href=#avoid-nesting-too-deeply-and-return-early-part-1>Avoid nesting too deeply and return early (part 1)</a></li><li><a href=#avoid-nesting-too-deeply-and-return-early-part-2>Avoid nesting too deeply and return early (part 2)</a></li><li><a href=#avoid-mental-mapping>Avoid Mental Mapping</a></li><li><a href=#don-t-add-unneeded-context>Don&rsquo;t add unneeded context</a></li><li><a href=#use-default-arguments-instead-of-short-circuiting-or-conditionals>Use default arguments instead of short circuiting or conditionals</a></li></ul></li><li><a href=#comparison>Comparison</a><ul><li><a href=#use-identical-comparison-http-php-net-manual-en-language-operators-comparison-php>Use <a href=http://php.net/manual/en/language.operators.comparison.php>identical comparison</a></a></li><li><a href=#null-coalescing-operator>Null coalescing operator</a></li></ul></li><li><a href=#functions>Functions</a><ul><li><a href=#function-arguments-2-or-fewer-ideally>Function arguments (2 or fewer ideally)</a></li><li><a href=#function-names-should-say-what-they-do>Function names should say what they do</a></li><li><a href=#functions-should-only-be-one-level-of-abstraction>Functions should only be one level of abstraction</a></li><li><a href=#don-t-use-flags-as-function-parameters>Don&rsquo;t use flags as function parameters</a></li><li><a href=#avoid-side-effects>Avoid Side Effects</a></li><li><a href=#don-t-write-to-global-functions>Don&rsquo;t write to global functions</a></li><li><a href=#don-t-use-a-singleton-pattern>Don&rsquo;t use a Singleton pattern</a></li><li><a href=#encapsulate-conditionals>Encapsulate conditionals</a></li><li><a href=#avoid-negative-conditionals>Avoid negative conditionals</a></li><li><a href=#avoid-conditionals>Avoid conditionals</a></li><li><a href=#avoid-type-checking-part-1>Avoid type-checking (part 1)</a></li><li><a href=#avoid-type-checking-part-2>Avoid type-checking (part 2)</a></li><li><a href=#remove-dead-code>Remove dead code</a></li></ul></li><li><a href=#objects-and-data-structures>Objects and Data Structures</a><ul><li><a href=#use-object-encapsulation>Use object encapsulation</a></li><li><a href=#make-objects-have-private-protected-members>Make objects have private/protected members</a></li></ul></li><li><a href=#classes>Classes</a><ul><li><a href=#prefer-composition-over-inheritance>Prefer composition over inheritance</a></li><li><a href=#avoid-fluent-interfaces>Avoid fluent interfaces</a></li><li><a href=#prefer-final-classes>Prefer final classes</a></li></ul></li><li><a href=#solid>SOLID</a><ul><li><a href=#single-responsibility-principle-srp>Single Responsibility Principle (SRP)</a></li><li><a href=#open-closed-principle-ocp>Open/Closed Principle (OCP)</a></li><li><a href=#liskov-substitution-principle-lsp>Liskov Substitution Principle (LSP)</a></li><li><a href=#interface-segregation-principle-isp>Interface Segregation Principle (ISP)</a></li><li><a href=#dependency-inversion-principle-dip>Dependency Inversion Principle (DIP)</a></li></ul></li><li><a href=#don-t-repeat-yourself-dry>Don’t repeat yourself (DRY)</a></li></ul></li></ul></nav></div></div><div class=post-content><blockquote><p>次篇文章是轉載 <a href=https://github.com/jupeter/clean-code-php/blob/master/README.md>此篇文章</a></p></blockquote><h1 id=clean-code-php>Clean Code PHP</h1><h2 id=table-of-contents>Table of Contents</h2><ul><li><a href=#clean-code-php>Clean Code PHP</a><ul><li><a href=#table-of-contents>Table of Contents</a></li><li><a href=#introduction>Introduction</a></li><li><a href=#variables>Variables</a></li><li><a href=#use-meaningful-and-pronounceable-variable-names>Use meaningful and pronounceable variable names</a></li><li><a href=#use-the-same-vocabulary-for-the-same-type-of-variable>Use the same vocabulary for the same type of variable</a></li><li><a href=#use-searchable-names-part-1>Use searchable names (part 1)</a></li><li><a href=#use-searchable-names-part-2>Use searchable names (part 2)</a></li><li><a href=#use-explanatory-variables>Use explanatory variables</a></li><li><a href=#avoid-nesting-too-deeply-and-return-early-part-1>Avoid nesting too deeply and return early (part 1)</a></li><li><a href=#avoid-nesting-too-deeply-and-return-early-part-2>Avoid nesting too deeply and return early (part 2)</a></li><li><a href=#avoid-mental-mapping>Avoid Mental Mapping</a></li><li><a href=#dont-add-unneeded-context>Don&rsquo;t add unneeded context</a></li><li><a href=#use-default-arguments-instead-of-short-circuiting-or-conditionals>Use default arguments instead of short circuiting or conditionals</a></li><li><a href=#comparison>Comparison</a></li><li><a href=#use-identical-comparison>Use identical comparison</a></li><li><a href=#null-coalescing-operator>Null coalescing operator</a></li><li><a href=#functions>Functions</a></li><li><a href=#function-arguments-2-or-fewer-ideally>Function arguments (2 or fewer ideally)</a></li><li><a href=#function-names-should-say-what-they-do>Function names should say what they do</a></li><li><a href=#functions-should-only-be-one-level-of-abstraction>Functions should only be one level of abstraction</a></li><li><a href=#dont-use-flags-as-function-parameters>Don&rsquo;t use flags as function parameters</a></li><li><a href=#avoid-side-effects>Avoid Side Effects</a></li><li><a href=#dont-write-to-global-functions>Don&rsquo;t write to global functions</a></li><li><a href=#dont-use-a-singleton-pattern>Don&rsquo;t use a Singleton pattern</a></li><li><a href=#encapsulate-conditionals>Encapsulate conditionals</a></li><li><a href=#avoid-negative-conditionals>Avoid negative conditionals</a></li><li><a href=#avoid-conditionals>Avoid conditionals</a></li><li><a href=#avoid-type-checking-part-1>Avoid type-checking (part 1)</a></li><li><a href=#avoid-type-checking-part-2>Avoid type-checking (part 2)</a></li><li><a href=#remove-dead-code>Remove dead code</a></li><li><a href=#objects-and-data-structures>Objects and Data Structures</a></li><li><a href=#use-object-encapsulation>Use object encapsulation</a></li><li><a href=#make-objects-have-privateprotected-members>Make objects have private/protected members</a></li><li><a href=#classes>Classes</a></li><li><a href=#prefer-composition-over-inheritance>Prefer composition over inheritance</a></li><li><a href=#avoid-fluent-interfaces>Avoid fluent interfaces</a></li><li><a href=#prefer-final-classes>Prefer final classes</a></li><li><a href=#solid>SOLID</a></li><li><a href=#single-responsibility-principle-srp>Single Responsibility Principle (SRP)</a></li><li><a href=#openclosed-principle-ocp>Open/Closed Principle (OCP)</a></li><li><a href=#liskov-substitution-principle-lsp>Liskov Substitution Principle (LSP)</a></li><li><a href=#interface-segregation-principle-isp>Interface Segregation Principle (ISP)</a></li><li><a href=#dependency-inversion-principle-dip>Dependency Inversion Principle (DIP)</a></li><li><a href=#dont-repeat-yourself-dry>Don’t repeat yourself (DRY)</a></li></ul></li></ul><h2 id=introduction>Introduction</h2><p>Software engineering principles, from Robert C. Martin&rsquo;s book
+<a href=https://www.amazon.com/Clean-Code-Handbook-Software-Craftsmanship/dp/0132350882><em>Clean Code</em></a>,
+adapted for PHP. This is not a style guide. It&rsquo;s a guide to producing
+readable, reusable, and refactorable software in PHP.</p><p>Not every principle herein has to be strictly followed, and even fewer will be universally
+agreed upon. These are guidelines and nothing more, but they are ones codified over many
+years of collective experience by the authors of <em>Clean Code</em>.</p><p>Inspired from <a href=https://github.com/ryanmcdermott/clean-code-javascript>clean-code-javascript</a>.</p><p>Although many developers still use PHP 5, most of the examples in this article only work with PHP 7.1+.</p><h2 id=variables>Variables</h2><h3 id=use-meaningful-and-pronounceable-variable-names>Use meaningful and pronounceable variable names</h3><p><strong>Bad:</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code class=language-php data-lang=php><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-php data-lang=php>$ymdstr = $moment-&gt;format(&#39;y-m-d&#39;);</code></pre></td></tr></table></div></div><p><strong>Good:</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code class=language-php data-lang=php><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-php data-lang=php>$currentDate = $moment-&gt;format(&#39;y-m-d&#39;);</code></pre></td></tr></table></div></div><p><strong><a href=#table-of-contents>⬆ back to top</a></strong></p><h3 id=use-the-same-vocabulary-for-the-same-type-of-variable>Use the same vocabulary for the same type of variable</h3><p><strong>Bad:</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code class=language-php data-lang=php><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-php data-lang=php>getUserInfo();
+getUserData();
+getUserRecord();
+getUserProfile();</code></pre></td></tr></table></div></div><p><strong>Good:</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code class=language-php data-lang=php><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-php data-lang=php>getUser();</code></pre></td></tr></table></div></div><p><strong><a href=#table-of-contents>⬆ back to top</a></strong></p><h3 id=use-searchable-names-part-1>Use searchable names (part 1)</h3><p>We will read more code than we will ever write. It&rsquo;s important that the code we do write is
+readable and searchable. By <em>not</em> naming variables that end up being meaningful for
+understanding our program, we hurt our readers.
+Make your names searchable.</p><p><strong>Bad:</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code class=language-php data-lang=php><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-php data-lang=php>// What the heck is 448 for?
+$result = $serializer-&gt;serialize($data, 448);</code></pre></td></tr></table></div></div><p><strong>Good:</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code class=language-php data-lang=php><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-php data-lang=php>$json = $serializer-&gt;serialize($data, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);</code></pre></td></tr></table></div></div><h3 id=use-searchable-names-part-2>Use searchable names (part 2)</h3><p><strong>Bad:</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code class=language-php data-lang=php><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-php data-lang=php>class User
+{
+    // What the heck is 7 for?
+    public $access = 7;
+}
+
+// What the heck is 4 for?
+if ($user-&gt;access <span class=err>&amp;</span> 4) {
+    // ...
+}
+
+// What&#39;s going on here?
+$user-&gt;access ^= 2;</code></pre></td></tr></table></div></div><p><strong>Good:</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code class=language-php data-lang=php><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-php data-lang=php>class User
+{
+    public const ACCESS_READ = 1;
+    public const ACCESS_CREATE = 2;
+    public const ACCESS_UPDATE = 4;
+    public const ACCESS_DELETE = 8;
+
+    // User as default can read, create and update something
+    public $access = self::ACCESS_READ | self::ACCESS_CREATE | self::ACCESS_UPDATE;
+}
+
+if ($user-&gt;access <span class=err>&amp;</span> User::ACCESS_UPDATE) {
+    // do edit ...
+}
+
+// Deny access rights to create something
+$user-&gt;access ^= User::ACCESS_CREATE;</code></pre></td></tr></table></div></div><p><strong><a href=#table-of-contents>⬆ back to top</a></strong></p><h3 id=use-explanatory-variables>Use explanatory variables</h3><p><strong>Bad:</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code class=language-php data-lang=php><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-php data-lang=php>$address = &#39;One Infinite Loop, Cupertino 95014&#39;;
+$cityZipCodeRegex = &#39;/^[^,]+,\s*(.+?)\s*(\d{5})$/&#39;;
+preg_match($cityZipCodeRegex, $address, $matches);
+
+saveCityZipCode($matches[1], $matches[2]);</code></pre></td></tr></table></div></div><p><strong>Not bad:</strong></p><p>It&rsquo;s better, but we are still heavily dependent on regex.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code class=language-php data-lang=php><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-php data-lang=php>$address = &#39;One Infinite Loop, Cupertino 95014&#39;;
+$cityZipCodeRegex = &#39;/^[^,]+,\s*(.+?)\s*(\d{5})$/&#39;;
+preg_match($cityZipCodeRegex, $address, $matches);
+
+[, $city, $zipCode] = $matches;
+saveCityZipCode($city, $zipCode);</code></pre></td></tr></table></div></div><p><strong>Good:</strong></p><p>Decrease dependence on regex by naming subpatterns.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code class=language-php data-lang=php><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-php data-lang=php>$address = &#39;One Infinite Loop, Cupertino 95014&#39;;
+$cityZipCodeRegex = &#39;/^[^,]+,\s*(?<span class=p>&lt;</span><span class=nt>city</span><span class=p>&gt;</span>.+?)\s*(?<span class=p>&lt;</span><span class=nt>zipCode</span><span class=p>&gt;</span>\d{5})$/&#39;;
+preg_match($cityZipCodeRegex, $address, $matches);
+
+saveCityZipCode($matches[&#39;city&#39;], $matches[&#39;zipCode&#39;]);</code></pre></td></tr></table></div></div><p><strong><a href=#table-of-contents>⬆ back to top</a></strong></p><h3 id=avoid-nesting-too-deeply-and-return-early-part-1>Avoid nesting too deeply and return early (part 1)</h3><p>Too many if-else statements can make your code hard to follow. Explicit is better
+than implicit.</p><p><strong>Bad:</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code class=language-php data-lang=php><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-php data-lang=php>function isShopOpen($day): bool
+{
+    if ($day) {
+        if (is_string($day)) {
+            $day = strtolower($day);
+            if ($day === &#39;friday&#39;) {
+                return true;
+            } elseif ($day === &#39;saturday&#39;) {
+                return true;
+            } elseif ($day === &#39;sunday&#39;) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    } else {
+        return false;
+    }
+}</code></pre></td></tr></table></div></div><p><strong>Good:</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code class=language-php data-lang=php><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-php data-lang=php>function isShopOpen(string $day): bool
+{
+    if (empty($day)) {
+        return false;
+    }
+
+    $openingDays = [
+        &#39;friday&#39;, &#39;saturday&#39;, &#39;sunday&#39;
+    ];
+
+    return in_array(strtolower($day), $openingDays, true);
+}</code></pre></td></tr></table></div></div><p><strong><a href=#table-of-contents>⬆ back to top</a></strong></p><h3 id=avoid-nesting-too-deeply-and-return-early-part-2>Avoid nesting too deeply and return early (part 2)</h3><p><strong>Bad:</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code class=language-php data-lang=php><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-php data-lang=php>function fibonacci(int $n)
+{
+    if ($n <span class=p>&lt;</span> <span class=nt>50</span><span class=err>)</span> <span class=err>{</span>
+        <span class=na>if</span> <span class=err>($</span><span class=na>n</span> <span class=err>!==</span> <span class=na>0</span><span class=err>)</span> <span class=err>{</span>
+            <span class=na>if</span> <span class=err>($</span><span class=na>n</span> <span class=err>!==</span> <span class=na>1</span><span class=err>)</span> <span class=err>{</span>
+                <span class=na>return</span> <span class=na>fibonacci</span><span class=err>($</span><span class=na>n</span> <span class=na>-</span> <span class=na>1</span><span class=err>)</span> <span class=err>+</span> <span class=na>fibonacci</span><span class=err>($</span><span class=na>n</span> <span class=na>-</span> <span class=na>2</span><span class=err>);</span>
+            <span class=err>}</span> <span class=na>else</span> <span class=err>{</span>
+                <span class=na>return</span> <span class=na>1</span><span class=err>;</span>
+            <span class=err>}</span>
+        <span class=err>}</span> <span class=na>else</span> <span class=err>{</span>
+            <span class=na>return</span> <span class=na>0</span><span class=err>;</span>
+        <span class=err>}</span>
+    <span class=err>}</span> <span class=na>else</span> <span class=err>{</span>
+        <span class=na>return</span> <span class=err>&#39;</span><span class=na>Not</span> <span class=na>supported</span><span class=err>&#39;;</span>
+    <span class=err>}</span>
+<span class=err>}</span></code></pre></td></tr></table></div></div><p><strong>Good:</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code class=language-php data-lang=php><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-php data-lang=php>function fibonacci(int $n): int
+{
+    if ($n === 0 || $n === 1) {
+        return $n;
+    }
+
+    if ($n &gt;= 50) {
+        throw new \Exception(&#39;Not supported&#39;);
+    }
+
+    return fibonacci($n - 1) + fibonacci($n - 2);
+}</code></pre></td></tr></table></div></div><p><strong><a href=#table-of-contents>⬆ back to top</a></strong></p><h3 id=avoid-mental-mapping>Avoid Mental Mapping</h3><p>Don’t force the reader of your code to translate what the variable means.
+Explicit is better than implicit.</p><p><strong>Bad:</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code class=language-php data-lang=php><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-php data-lang=php>$l = [&#39;Austin&#39;, &#39;New York&#39;, &#39;San Francisco&#39;];
+
+for ($i = 0; $i <span class=p>&lt;</span> <span class=nt>count</span><span class=err>($</span><span class=na>l</span><span class=err>);</span> <span class=err>$</span><span class=na>i</span><span class=err>++)</span> <span class=err>{</span>
+    <span class=err>$</span><span class=na>li </span><span class=o>=</span> <span class=s>$l[$i];</span>
+    <span class=na>doStuff</span><span class=err>();</span>
+    <span class=na>doSomeOtherStuff</span><span class=err>();</span>
+    <span class=err>//</span> <span class=err>...</span>
+    <span class=err>//</span> <span class=err>...</span>
+    <span class=err>//</span> <span class=err>...</span>
+    <span class=err>//</span> <span class=na>Wait</span><span class=err>,</span> <span class=na>what</span> <span class=na>is</span> <span class=err>`$</span><span class=na>li</span><span class=err>`</span> <span class=na>for</span> <span class=na>again</span><span class=err>?</span>
+    <span class=na>dispatch</span><span class=err>($</span><span class=na>li</span><span class=err>);</span>
+<span class=err>}</span></code></pre></td></tr></table></div></div><p><strong>Good:</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code class=language-php data-lang=php><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-php data-lang=php>$locations = [&#39;Austin&#39;, &#39;New York&#39;, &#39;San Francisco&#39;];
+
+foreach ($locations as $location) {
+    doStuff();
+    doSomeOtherStuff();
+    // ...
+    // ...
+    // ...
+    dispatch($location);
+}</code></pre></td></tr></table></div></div><p><strong><a href=#table-of-contents>⬆ back to top</a></strong></p><h3 id=don-t-add-unneeded-context>Don&rsquo;t add unneeded context</h3><p>If your class/object name tells you something, don&rsquo;t repeat that in your
+variable name.</p><p><strong>Bad:</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code class=language-php data-lang=php><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-php data-lang=php>class Car
+{
+    public $carMake;
+    public $carModel;
+    public $carColor;
+
+    //...
+}</code></pre></td></tr></table></div></div><p><strong>Good:</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code class=language-php data-lang=php><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-php data-lang=php>class Car
+{
+    public $make;
+    public $model;
+    public $color;
+
+    //...
+}</code></pre></td></tr></table></div></div><p><strong><a href=#table-of-contents>⬆ back to top</a></strong></p><h3 id=use-default-arguments-instead-of-short-circuiting-or-conditionals>Use default arguments instead of short circuiting or conditionals</h3><p><strong>Not good:</strong></p><p>This is not good because <code>$breweryName</code> can be <code>NULL</code>.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code class=language-php data-lang=php><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-php data-lang=php>function createMicrobrewery($breweryName = &#39;Hipster Brew Co.&#39;): void
+{
+    // ...
+}</code></pre></td></tr></table></div></div><p><strong>Not bad:</strong></p><p>This opinion is more understandable than the previous version, but it better controls the value of the variable.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code class=language-php data-lang=php><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-php data-lang=php>function createMicrobrewery($name = null): void
+{
+    $breweryName = $name ?: &#39;Hipster Brew Co.&#39;;
+    // ...
+}</code></pre></td></tr></table></div></div><p><strong>Good:</strong></p><p>You can use <a href=http://php.net/manual/en/functions.arguments.php#functions.arguments.type-declaration>type hinting</a> and be sure that the <code>$breweryName</code> will not be <code>NULL</code>.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code class=language-php data-lang=php><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-php data-lang=php>function createMicrobrewery(string $breweryName = &#39;Hipster Brew Co.&#39;): void
+{
+    // ...
+}</code></pre></td></tr></table></div></div><p><strong><a href=#table-of-contents>⬆ back to top</a></strong></p><h2 id=comparison>Comparison</h2><h3 id=use-identical-comparison-http-php-net-manual-en-language-operators-comparison-php>Use <a href=http://php.net/manual/en/language.operators.comparison.php>identical comparison</a></h3><p><strong>Not good:</strong></p><p>The simple comparison will convert the string in an integer.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code class=language-php data-lang=php><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-php data-lang=php>$a = &#39;42&#39;;
+$b = 42;
+
+if ($a != $b) {
+   // The expression will always pass
+}</code></pre></td></tr></table></div></div><p>The comparison <code>$a != $b</code> returns <code>FALSE</code> but in fact it&rsquo;s <code>TRUE</code>!
+The string <code>42</code> is different than the integer <code>42</code>.</p><p><strong>Good:</strong></p><p>The identical comparison will compare type and value.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code class=language-php data-lang=php><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-php data-lang=php>$a = &#39;42&#39;;
+$b = 42;
+
+if ($a !== $b) {
+    // The expression is verified
+}</code></pre></td></tr></table></div></div><p>The comparison <code>$a !== $b</code> returns <code>TRUE</code>.</p><p><strong><a href=#table-of-contents>⬆ back to top</a></strong></p><h3 id=null-coalescing-operator>Null coalescing operator</h3><p>Null coalescing is a new operator <a href=https://www.php.net/manual/en/migration70.new-features.php>introduced in PHP 7</a>. The null coalescing operator <code>??</code> has been added as syntactic sugar for the common case of needing to use a ternary in conjunction with <code>isset()</code>. It returns its first operand if it exists and is not <code>null</code>; otherwise it returns its second operand.</p><p><strong>Bad:</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code class=language-php data-lang=php><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-php data-lang=php>if (isset($_GET[&#39;name&#39;])) {
+    $name = $_GET[&#39;name&#39;];
+} elseif (isset($_POST[&#39;name&#39;])) {
+    $name = $_POST[&#39;name&#39;];
+} else {
+    $name = &#39;nobody&#39;;
+}</code></pre></td></tr></table></div></div><p><strong>Good:</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code class=language-php data-lang=php><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-php data-lang=php>$name = $_GET[&#39;name&#39;] ?? $_POST[&#39;name&#39;] ?? &#39;nobody&#39;;</code></pre></td></tr></table></div></div><p><strong><a href=#table-of-contents>⬆ back to top</a></strong></p><h2 id=functions>Functions</h2><h3 id=function-arguments-2-or-fewer-ideally>Function arguments (2 or fewer ideally)</h3><p>Limiting the amount of function parameters is incredibly important because it makes
+testing your function easier. Having more than three leads to a combinatorial explosion
+where you have to test tons of different cases with each separate argument.</p><p>Zero arguments is the ideal case. One or two arguments is ok, and three should be avoided.
+Anything more than that should be consolidated. Usually, if you have more than two
+arguments then your function is trying to do too much. In cases where it&rsquo;s not, most
+of the time a higher-level object will suffice as an argument.</p><p><strong>Bad:</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code class=language-php data-lang=php><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-php data-lang=php>class Questionnaire
+{
+    public function __construct(
+        string $firstname,
+        string $lastname,
+        string $patronymic,
+        string $region,
+        string $district,
+        string $city,
+        string $phone,
+        string $email
+    ) {
+        // ...
+    }
+}</code></pre></td></tr></table></div></div><p><strong>Good:</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code class=language-php data-lang=php><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span><span class=lnt>52
+</span><span class=lnt>53
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-php data-lang=php>class Name
+{
+    private $firstname;
+    private $lastname;
+    private $patronymic;
+
+    public function __construct(string $firstname, string $lastname, string $patronymic)
+    {
+        $this-&gt;firstname = $firstname;
+        $this-&gt;lastname = $lastname;
+        $this-&gt;patronymic = $patronymic;
+    }
+
+    // getters ...
+}
+
+class City
+{
+    private $region;
+    private $district;
+    private $city;
+
+    public function __construct(string $region, string $district, string $city)
+    {
+        $this-&gt;region = $region;
+        $this-&gt;district = $district;
+        $this-&gt;city = $city;
+    }
+
+    // getters ...
+}
+
+class Contact
+{
+    private $phone;
+    private $email;
+
+    public function __construct(string $phone, string $email)
+    {
+        $this-&gt;phone = $phone;
+        $this-&gt;email = $email;
+    }
+
+    // getters ...
+}
+
+class Questionnaire
+{
+    public function __construct(Name $name, City $city, Contact $contact)
+    {
+        // ...
+    }
+}</code></pre></td></tr></table></div></div><p><strong><a href=#table-of-contents>⬆ back to top</a></strong></p><h3 id=function-names-should-say-what-they-do>Function names should say what they do</h3><p><strong>Bad:</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code class=language-php data-lang=php><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-php data-lang=php>class Email
+{
+    //...
+
+    public function handle(): void
+    {
+        mail($this-&gt;to, $this-&gt;subject, $this-&gt;body);
+    }
+}
+
+$message = new Email(...);
+// What is this? A handle for the message? Are we writing to a file now?
+$message-&gt;handle();</code></pre></td></tr></table></div></div><p><strong>Good:</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code class=language-php data-lang=php><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-php data-lang=php>class Email
+{
+    //...
+
+    public function send(): void
+    {
+        mail($this-&gt;to, $this-&gt;subject, $this-&gt;body);
+    }
+}
+
+$message = new Email(...);
+// Clear and obvious
+$message-&gt;send();</code></pre></td></tr></table></div></div><p><strong><a href=#table-of-contents>⬆ back to top</a></strong></p><h3 id=functions-should-only-be-one-level-of-abstraction>Functions should only be one level of abstraction</h3><p>When you have more than one level of abstraction your function is usually
+doing too much. Splitting up functions leads to reusability and easier
+testing.</p><p><strong>Bad:</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code class=language-php data-lang=php><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-php data-lang=php>function parseBetterPHPAlternative(string $code): void
+{
+    $regexes = [
+        // ...
+    ];
+
+    $statements = explode(&#39; &#39;, $code);
+    $tokens = [];
+    foreach ($regexes as $regex) {
+        foreach ($statements as $statement) {
+            // ...
+        }
+    }
+
+    $ast = [];
+    foreach ($tokens as $token) {
+        // lex...
+    }
+
+    foreach ($ast as $node) {
+        // parse...
+    }
+}</code></pre></td></tr></table></div></div><p><strong>Bad too:</strong></p><p>We have carried out some of the functionality, but the <code>parseBetterPHPAlternative()</code> function is still very complex and not testable.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code class=language-php data-lang=php><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-php data-lang=php>function tokenize(string $code): array
+{
+    $regexes = [
+        // ...
+    ];
+
+    $statements = explode(&#39; &#39;, $code);
+    $tokens = [];
+    foreach ($regexes as $regex) {
+        foreach ($statements as $statement) {
+            $tokens[] = /* ... */;
+        }
+    }
+
+    return $tokens;
+}
+
+function lexer(array $tokens): array
+{
+    $ast = [];
+    foreach ($tokens as $token) {
+        $ast[] = /* ... */;
+    }
+
+    return $ast;
+}
+
+function parseBetterPHPAlternative(string $code): void
+{
+    $tokens = tokenize($code);
+    $ast = lexer($tokens);
+    foreach ($ast as $node) {
+        // parse...
+    }
+}</code></pre></td></tr></table></div></div><p><strong>Good:</strong></p><p>The best solution is move out the dependencies of <code>parseBetterPHPAlternative()</code> function.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code class=language-php data-lang=php><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span><span class=lnt>52
+</span><span class=lnt>53
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-php data-lang=php>class Tokenizer
+{
+    public function tokenize(string $code): array
+    {
+        $regexes = [
+            // ...
+        ];
+
+        $statements = explode(&#39; &#39;, $code);
+        $tokens = [];
+        foreach ($regexes as $regex) {
+            foreach ($statements as $statement) {
+                $tokens[] = /* ... */;
+            }
+        }
+
+        return $tokens;
+    }
+}
+
+class Lexer
+{
+    public function lexify(array $tokens): array
+    {
+        $ast = [];
+        foreach ($tokens as $token) {
+            $ast[] = /* ... */;
+        }
+
+        return $ast;
+    }
+}
+
+class BetterPHPAlternative
+{
+    private $tokenizer;
+    private $lexer;
+
+    public function __construct(Tokenizer $tokenizer, Lexer $lexer)
+    {
+        $this-&gt;tokenizer = $tokenizer;
+        $this-&gt;lexer = $lexer;
+    }
+
+    public function parse(string $code): void
+    {
+        $tokens = $this-&gt;tokenizer-&gt;tokenize($code);
+        $ast = $this-&gt;lexer-&gt;lexify($tokens);
+        foreach ($ast as $node) {
+            // parse...
+        }
+    }
+}</code></pre></td></tr></table></div></div><p><strong><a href=#table-of-contents>⬆ back to top</a></strong></p><h3 id=don-t-use-flags-as-function-parameters>Don&rsquo;t use flags as function parameters</h3><p>Flags tell your user that this function does more than one thing. Functions should
+do one thing. Split out your functions if they are following different code paths
+based on a boolean.</p><p><strong>Bad:</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code class=language-php data-lang=php><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-php data-lang=php>function createFile(string $name, bool $temp = false): void
+{
+    if ($temp) {
+        touch(&#39;./temp/&#39;.$name);
+    } else {
+        touch($name);
+    }
+}</code></pre></td></tr></table></div></div><p><strong>Good:</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code class=language-php data-lang=php><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-php data-lang=php>function createFile(string $name): void
+{
+    touch($name);
+}
+
+function createTempFile(string $name): void
+{
+    touch(&#39;./temp/&#39;.$name);
+}</code></pre></td></tr></table></div></div><p><strong><a href=#table-of-contents>⬆ back to top</a></strong></p><h3 id=avoid-side-effects>Avoid Side Effects</h3><p>A function produces a side effect if it does anything other than take a value in and
+return another value or values. A side effect could be writing to a file, modifying
+some global variable, or accidentally wiring all your money to a stranger.</p><p>Now, you do need to have side effects in a program on occasion. Like the previous
+example, you might need to write to a file. What you want to do is to centralize where
+you are doing this. Don&rsquo;t have several functions and classes that write to a particular
+file. Have one service that does it. One and only one.</p><p>The main point is to avoid common pitfalls like sharing state between objects without
+any structure, using mutable data types that can be written to by anything, and not
+centralizing where your side effects occur. If you can do this, you will be happier
+than the vast majority of other programmers.</p><p><strong>Bad:</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code class=language-php data-lang=php><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-php data-lang=php>// Global variable referenced by following function.
+// If we had another function that used this name, now it&#39;d be an array and it could break it.
+$name = &#39;Ryan McDermott&#39;;
+
+function splitIntoFirstAndLastName(): void
+{
+    global $name;
+
+    $name = explode(&#39; &#39;, $name);
+}
+
+splitIntoFirstAndLastName();
+
+var_dump($name); // [&#39;Ryan&#39;, &#39;McDermott&#39;];</code></pre></td></tr></table></div></div><p><strong>Good:</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code class=language-php data-lang=php><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-php data-lang=php>function splitIntoFirstAndLastName(string $name): array
+{
+    return explode(&#39; &#39;, $name);
+}
+
+$name = &#39;Ryan McDermott&#39;;
+$newName = splitIntoFirstAndLastName($name);
+
+var_dump($name); // &#39;Ryan McDermott&#39;;
+var_dump($newName); // [&#39;Ryan&#39;, &#39;McDermott&#39;];</code></pre></td></tr></table></div></div><p><strong><a href=#table-of-contents>⬆ back to top</a></strong></p><h3 id=don-t-write-to-global-functions>Don&rsquo;t write to global functions</h3><p>Polluting globals is a bad practice in many languages because you could clash with another
+library and the user of your API would be none-the-wiser until they get an exception in
+production. Let&rsquo;s think about an example: what if you wanted to have configuration array?
+You could write global function like <code>config()</code>, but it could clash with another library
+that tried to do the same thing.</p><p><strong>Bad:</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code class=language-php data-lang=php><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-php data-lang=php>function config(): array
+{
+    return  [
+        &#39;foo&#39; =&gt; &#39;bar&#39;,
+    ];
+}</code></pre></td></tr></table></div></div><p><strong>Good:</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code class=language-php data-lang=php><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-php data-lang=php>class Configuration
+{
+    private $configuration = [];
+
+    public function __construct(array $configuration)
+    {
+        $this-&gt;configuration = $configuration;
+    }
+
+    public function get(string $key): ?string
+    {
+        // null coalescing operator
+        return $this-&gt;configuration[$key] ?? null;
+    }
+}</code></pre></td></tr></table></div></div><p>Load configuration and create instance of <code>Configuration</code> class</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code class=language-php data-lang=php><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-php data-lang=php>$configuration = new Configuration([
+    &#39;foo&#39; =&gt; &#39;bar&#39;,
+]);</code></pre></td></tr></table></div></div><p>And now you must use instance of <code>Configuration</code> in your application.</p><p><strong><a href=#table-of-contents>⬆ back to top</a></strong></p><h3 id=don-t-use-a-singleton-pattern>Don&rsquo;t use a Singleton pattern</h3><p>Singleton is an <a href=https://en.wikipedia.org/wiki/Singleton_pattern>anti-pattern</a>. Paraphrased from Brian Button:</p><ol><li>They are generally used as a <strong>global instance</strong>, why is that so bad? Because <strong>you hide the dependencies</strong> of your application in your code, instead of exposing them through the interfaces. Making something global to avoid passing it around is a <a href=https://en.wikipedia.org/wiki/Code_smell>code smell</a>.</li><li>They violate the <a href=#single-responsibility-principle-srp>single responsibility principle</a>: by virtue of the fact that <strong>they control their own creation and lifecycle</strong>.</li><li>They inherently cause code to be tightly <a href=https://en.wikipedia.org/wiki/Coupling_%28computer_programming%29>coupled</a>. This makes faking them out under <strong>test rather difficult</strong> in many cases.</li><li>They carry state around for the lifetime of the application. Another hit to testing since <strong>you can end up with a situation where tests need to be ordered</strong> which is a big no for unit tests. Why? Because each unit test should be independent from the other.</li></ol><p>There is also very good thoughts by <a href=http://misko.hevery.com/about/>Misko Hevery</a> about the <a href=http://misko.hevery.com/2008/08/25/root-cause-of-singletons/>root of problem</a>.</p><p><strong>Bad:</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code class=language-php data-lang=php><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-php data-lang=php>class DBConnection
+{
+    private static $instance;
+
+    private function __construct(string $dsn)
+    {
+        // ...
+    }
+
+    public static function getInstance(): DBConnection
+    {
+        if (self::$instance === null) {
+            self::$instance = new self();
+        }
+
+        return self::$instance;
+    }
+
+    // ...
+}
+
+$singleton = DBConnection::getInstance();</code></pre></td></tr></table></div></div><p><strong>Good:</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code class=language-php data-lang=php><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-php data-lang=php>class DBConnection
+{
+    public function __construct(string $dsn)
+    {
+        // ...
+    }
+
+     // ...
+}</code></pre></td></tr></table></div></div><p>Create instance of <code>DBConnection</code> class and configure it with <a href=http://php.net/manual/en/pdo.construct.php#refsect1-pdo.construct-parameters>DSN</a>.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code class=language-php data-lang=php><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-php data-lang=php>$connection = new DBConnection($dsn);</code></pre></td></tr></table></div></div><p>And now you must use instance of <code>DBConnection</code> in your application.</p><p><strong><a href=#table-of-contents>⬆ back to top</a></strong></p><h3 id=encapsulate-conditionals>Encapsulate conditionals</h3><p><strong>Bad:</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code class=language-php data-lang=php><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-php data-lang=php>if ($article-&gt;state === &#39;published&#39;) {
+    // ...
+}</code></pre></td></tr></table></div></div><p><strong>Good:</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code class=language-php data-lang=php><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-php data-lang=php>if ($article-&gt;isPublished()) {
+    // ...
+}</code></pre></td></tr></table></div></div><p><strong><a href=#table-of-contents>⬆ back to top</a></strong></p><h3 id=avoid-negative-conditionals>Avoid negative conditionals</h3><p><strong>Bad:</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code class=language-php data-lang=php><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-php data-lang=php>function isDOMNodeNotPresent(\DOMNode $node): bool
+{
+    // ...
+}
+
+if (!isDOMNodeNotPresent($node))
+{
+    // ...
+}</code></pre></td></tr></table></div></div><p><strong>Good:</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code class=language-php data-lang=php><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-php data-lang=php>function isDOMNodePresent(\DOMNode $node): bool
+{
+    // ...
+}
+
+if (isDOMNodePresent($node)) {
+    // ...
+}</code></pre></td></tr></table></div></div><p><strong><a href=#table-of-contents>⬆ back to top</a></strong></p><h3 id=avoid-conditionals>Avoid conditionals</h3><p>This seems like an impossible task. Upon first hearing this, most people say,
+&ldquo;how am I supposed to do anything without an <code>if</code> statement?&rdquo; The answer is that
+you can use polymorphism to achieve the same task in many cases. The second
+question is usually, &ldquo;well that&rsquo;s great but why would I want to do that?&rdquo; The
+answer is a previous clean code concept we learned: a function should only do
+one thing. When you have classes and functions that have <code>if</code> statements, you
+are telling your user that your function does more than one thing. Remember,
+just do one thing.</p><p><strong>Bad:</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code class=language-php data-lang=php><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-php data-lang=php>class Airplane
+{
+    // ...
+
+    public function getCruisingAltitude(): int
+    {
+        switch ($this-&gt;type) {
+            case &#39;777&#39;:
+                return $this-&gt;getMaxAltitude() - $this-&gt;getPassengerCount();
+            case &#39;Air Force One&#39;:
+                return $this-&gt;getMaxAltitude();
+            case &#39;Cessna&#39;:
+                return $this-&gt;getMaxAltitude() - $this-&gt;getFuelExpenditure();
+        }
+    }
+}</code></pre></td></tr></table></div></div><p><strong>Good:</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code class=language-php data-lang=php><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-php data-lang=php>interface Airplane
+{
+    // ...
+
+    public function getCruisingAltitude(): int;
+}
+
+class Boeing777 implements Airplane
+{
+    // ...
+
+    public function getCruisingAltitude(): int
+    {
+        return $this-&gt;getMaxAltitude() - $this-&gt;getPassengerCount();
+    }
+}
+
+class AirForceOne implements Airplane
+{
+    // ...
+
+    public function getCruisingAltitude(): int
+    {
+        return $this-&gt;getMaxAltitude();
+    }
+}
+
+class Cessna implements Airplane
+{
+    // ...
+
+    public function getCruisingAltitude(): int
+    {
+        return $this-&gt;getMaxAltitude() - $this-&gt;getFuelExpenditure();
+    }
+}</code></pre></td></tr></table></div></div><p><strong><a href=#table-of-contents>⬆ back to top</a></strong></p><h3 id=avoid-type-checking-part-1>Avoid type-checking (part 1)</h3><p>PHP is untyped, which means your functions can take any type of argument.
+Sometimes you are bitten by this freedom and it becomes tempting to do
+type-checking in your functions. There are many ways to avoid having to do this.
+The first thing to consider is consistent APIs.</p><p><strong>Bad:</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code class=language-php data-lang=php><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-php data-lang=php>function travelToTexas($vehicle): void
+{
+    if ($vehicle instanceof Bicycle) {
+        $vehicle-&gt;pedalTo(new Location(&#39;texas&#39;));
+    } elseif ($vehicle instanceof Car) {
+        $vehicle-&gt;driveTo(new Location(&#39;texas&#39;));
+    }
+}</code></pre></td></tr></table></div></div><p><strong>Good:</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code class=language-php data-lang=php><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-php data-lang=php>function travelToTexas(Vehicle $vehicle): void
+{
+    $vehicle-&gt;travelTo(new Location(&#39;texas&#39;));
+}</code></pre></td></tr></table></div></div><p><strong><a href=#table-of-contents>⬆ back to top</a></strong></p><h3 id=avoid-type-checking-part-2>Avoid type-checking (part 2)</h3><p>If you are working with basic primitive values like strings, integers, and arrays,
+and you use PHP 7+ and you can&rsquo;t use polymorphism but you still feel the need to
+type-check, you should consider
+<a href=http://php.net/manual/en/functions.arguments.php#functions.arguments.type-declaration>type declaration</a>
+or strict mode. It provides you with static typing on top of standard PHP syntax.
+The problem with manually type-checking is that doing it will require so much
+extra verbiage that the faux &ldquo;type-safety&rdquo; you get doesn&rsquo;t make up for the lost
+readability. Keep your PHP clean, write good tests, and have good code reviews.
+Otherwise, do all of that but with PHP strict type declaration or strict mode.</p><p><strong>Bad:</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code class=language-php data-lang=php><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-php data-lang=php>function combine($val1, $val2): int
+{
+    if (!is_numeric($val1) || !is_numeric($val2)) {
+        throw new \Exception(&#39;Must be of type Number&#39;);
+    }
+
+    return $val1 + $val2;
+}</code></pre></td></tr></table></div></div><p><strong>Good:</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code class=language-php data-lang=php><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-php data-lang=php>function combine(int $val1, int $val2): int
+{
+    return $val1 + $val2;
+}</code></pre></td></tr></table></div></div><p><strong><a href=#table-of-contents>⬆ back to top</a></strong></p><h3 id=remove-dead-code>Remove dead code</h3><p>Dead code is just as bad as duplicate code. There&rsquo;s no reason to keep it in
+your codebase. If it&rsquo;s not being called, get rid of it! It will still be safe
+in your version history if you still need it.</p><p><strong>Bad:</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code class=language-php data-lang=php><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-php data-lang=php>function oldRequestModule(string $url): void
+{
+    // ...
+}
+
+function newRequestModule(string $url): void
+{
+    // ...
+}
+
+$request = newRequestModule($requestUrl);
+inventoryTracker(&#39;apples&#39;, $request, &#39;www.inventory-awesome.io&#39;);</code></pre></td></tr></table></div></div><p><strong>Good:</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code class=language-php data-lang=php><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-php data-lang=php>function requestModule(string $url): void
+{
+    // ...
+}
+
+$request = requestModule($requestUrl);
+inventoryTracker(&#39;apples&#39;, $request, &#39;www.inventory-awesome.io&#39;);</code></pre></td></tr></table></div></div><p><strong><a href=#table-of-contents>⬆ back to top</a></strong></p><h2 id=objects-and-data-structures>Objects and Data Structures</h2><h3 id=use-object-encapsulation>Use object encapsulation</h3><p>In PHP you can set <code>public</code>, <code>protected</code> and <code>private</code> keywords for methods.
+Using it, you can control properties modification on an object.</p><ul><li>When you want to do more beyond getting an object property, you don&rsquo;t have
+to look up and change every accessor in your codebase.</li><li>Makes adding validation simple when doing a <code>set</code>.</li><li>Encapsulates the internal representation.</li><li>Easy to add logging and error handling when getting and setting.</li><li>Inheriting this class, you can override default functionality.</li><li>You can lazy load your object&rsquo;s properties, let&rsquo;s say getting it from a
+server.</li></ul><p>Additionally, this is part of <a href=#openclosed-principle-ocp>Open/Closed</a> principle.</p><p><strong>Bad:</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code class=language-php data-lang=php><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-php data-lang=php>class BankAccount
+{
+    public $balance = 1000;
+}
+
+$bankAccount = new BankAccount();
+
+// Buy shoes...
+$bankAccount-&gt;balance -= 100;</code></pre></td></tr></table></div></div><p><strong>Good:</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code class=language-php data-lang=php><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-php data-lang=php>class BankAccount
+{
+    private $balance;
+
+    public function __construct(int $balance = 1000)
+    {
+      $this-&gt;balance = $balance;
+    }
+
+    public function withdraw(int $amount): void
+    {
+        if ($amount &gt; $this-&gt;balance) {
+            throw new \Exception(&#39;Amount greater than available balance.&#39;);
+        }
+
+        $this-&gt;balance -= $amount;
+    }
+
+    public function deposit(int $amount): void
+    {
+        $this-&gt;balance += $amount;
+    }
+
+    public function getBalance(): int
+    {
+        return $this-&gt;balance;
+    }
+}
+
+$bankAccount = new BankAccount();
+
+// Buy shoes...
+$bankAccount-&gt;withdraw($shoesPrice);
+
+// Get balance
+$balance = $bankAccount-&gt;getBalance();</code></pre></td></tr></table></div></div><p><strong><a href=#table-of-contents>⬆ back to top</a></strong></p><h3 id=make-objects-have-private-protected-members>Make objects have private/protected members</h3><ul><li><code>public</code> methods and properties are most dangerous for changes, because some outside code may easily rely on them and you can&rsquo;t control what code relies on them. <strong>Modifications in class are dangerous for all users of class.</strong></li><li><code>protected</code> modifier are as dangerous as public, because they are available in scope of any child class. This effectively means that difference between public and protected is only in access mechanism, but encapsulation guarantee remains the same. <strong>Modifications in class are dangerous for all descendant classes.</strong></li><li><code>private</code> modifier guarantees that code is <strong>dangerous to modify only in boundaries of single class</strong> (you are safe for modifications and you won&rsquo;t have <a href="http://www.urbandictionary.com/define.php?term=Jengaphobia&amp;defid=2494196">Jenga effect</a>).</li></ul><p>Therefore, use <code>private</code> by default and <code>public/protected</code> when you need to provide access for external classes.</p><p>For more informations you can read the <a href=http://fabien.potencier.org/pragmatism-over-theory-protected-vs-private.html>blog post</a> on this topic written by <a href=https://github.com/fabpot>Fabien Potencier</a>.</p><p><strong>Bad:</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code class=language-php data-lang=php><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-php data-lang=php>class Employee
+{
+    public $name;
+
+    public function __construct(string $name)
+    {
+        $this-&gt;name = $name;
+    }
+}
+
+$employee = new Employee(&#39;John Doe&#39;);
+echo &#39;Employee name: &#39;.$employee-&gt;name; // Employee name: John Doe</code></pre></td></tr></table></div></div><p><strong>Good:</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code class=language-php data-lang=php><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-php data-lang=php>class Employee
+{
+    private $name;
+
+    public function __construct(string $name)
+    {
+        $this-&gt;name = $name;
+    }
+
+    public function getName(): string
+    {
+        return $this-&gt;name;
+    }
+}
+
+$employee = new Employee(&#39;John Doe&#39;);
+echo &#39;Employee name: &#39;.$employee-&gt;getName(); // Employee name: John Doe</code></pre></td></tr></table></div></div><p><strong><a href=#table-of-contents>⬆ back to top</a></strong></p><h2 id=classes>Classes</h2><h3 id=prefer-composition-over-inheritance>Prefer composition over inheritance</h3><p>As stated famously in <a href=https://en.wikipedia.org/wiki/Design_Patterns><em>Design Patterns</em></a> by the Gang of Four,
+you should prefer composition over inheritance where you can. There are lots of
+good reasons to use inheritance and lots of good reasons to use composition.
+The main point for this maxim is that if your mind instinctively goes for
+inheritance, try to think if composition could model your problem better. In some
+cases it can.</p><p>You might be wondering then, &ldquo;when should I use inheritance?&rdquo; It
+depends on your problem at hand, but this is a decent list of when inheritance
+makes more sense than composition:</p><ol><li>Your inheritance represents an &ldquo;is-a&rdquo; relationship and not a &ldquo;has-a&rdquo;
+relationship (Human-&gt;Animal vs. User-&gt;UserDetails).</li><li>You can reuse code from the base classes (Humans can move like all animals).</li><li>You want to make global changes to derived classes by changing a base class.
+(Change the caloric expenditure of all animals when they move).</li></ol><p><strong>Bad:</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code class=language-php data-lang=php><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-php data-lang=php>class Employee
+{
+    private $name;
+    private $email;
+
+    public function __construct(string $name, string $email)
+    {
+        $this-&gt;name = $name;
+        $this-&gt;email = $email;
+    }
+
+    // ...
+}
+
+// Bad because Employees &#34;have&#34; tax data.
+// EmployeeTaxData is not a type of Employee
+
+class EmployeeTaxData extends Employee
+{
+    private $ssn;
+    private $salary;
+
+    public function __construct(string $name, string $email, string $ssn, string $salary)
+    {
+        parent::__construct($name, $email);
+
+        $this-&gt;ssn = $ssn;
+        $this-&gt;salary = $salary;
+    }
+
+    // ...
+}</code></pre></td></tr></table></div></div><p><strong>Good:</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code class=language-php data-lang=php><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-php data-lang=php>class EmployeeTaxData
+{
+    private $ssn;
+    private $salary;
+
+    public function __construct(string $ssn, string $salary)
+    {
+        $this-&gt;ssn = $ssn;
+        $this-&gt;salary = $salary;
+    }
+
+    // ...
+}
+
+class Employee
+{
+    private $name;
+    private $email;
+    private $taxData;
+
+    public function __construct(string $name, string $email)
+    {
+        $this-&gt;name = $name;
+        $this-&gt;email = $email;
+    }
+
+    public function setTaxData(EmployeeTaxData $taxData)
+    {
+        $this-&gt;taxData = $taxData;
+    }
+
+    // ...
+}</code></pre></td></tr></table></div></div><p><strong><a href=#table-of-contents>⬆ back to top</a></strong></p><h3 id=avoid-fluent-interfaces>Avoid fluent interfaces</h3><p>A <a href=https://en.wikipedia.org/wiki/Fluent_interface>Fluent interface</a> is an object
+oriented API that aims to improve the readability of the source code by using
+<a href=https://en.wikipedia.org/wiki/Method_chaining>Method chaining</a>.</p><p>While there can be some contexts, frequently builder objects, where this
+pattern reduces the verbosity of the code (for example the <a href=https://phpunit.de/manual/current/en/test-doubles.html>PHPUnit Mock Builder</a>
+or the <a href=http://docs.doctrine-project.org/projects/doctrine-dbal/en/latest/reference/query-builder.html>Doctrine Query Builder</a>),
+more often it comes at some costs:</p><ol><li>Breaks <a href=https://en.wikipedia.org/wiki/Encapsulation_%28object-oriented_programming%29>Encapsulation</a>.</li><li>Breaks <a href=https://en.wikipedia.org/wiki/Decorator_pattern>Decorators</a>.</li><li>Is harder to <a href=https://en.wikipedia.org/wiki/Mock_object>mock</a> in a test suite.</li><li>Makes diffs of commits harder to read.</li></ol><p>For more informations you can read the full <a href=https://ocramius.github.io/blog/fluent-interfaces-are-evil/>blog post</a>
+on this topic written by <a href=https://github.com/Ocramius>Marco Pivetta</a>.</p><p><strong>Bad:</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code class=language-php data-lang=php><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-php data-lang=php>class Car
+{
+    private $make = &#39;Honda&#39;;
+    private $model = &#39;Accord&#39;;
+    private $color = &#39;white&#39;;
+
+    public function setMake(string $make): self
+    {
+        $this-&gt;make = $make;
+
+        // NOTE: Returning this for chaining
+        return $this;
+    }
+
+    public function setModel(string $model): self
+    {
+        $this-&gt;model = $model;
+
+        // NOTE: Returning this for chaining
+        return $this;
+    }
+
+    public function setColor(string $color): self
+    {
+        $this-&gt;color = $color;
+
+        // NOTE: Returning this for chaining
+        return $this;
+    }
+
+    public function dump(): void
+    {
+        var_dump($this-&gt;make, $this-&gt;model, $this-&gt;color);
+    }
+}
+
+$car = (new Car())
+  -&gt;setColor(&#39;pink&#39;)
+  -&gt;setMake(&#39;Ford&#39;)
+  -&gt;setModel(&#39;F-150&#39;)
+  -&gt;dump();</code></pre></td></tr></table></div></div><p><strong>Good:</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code class=language-php data-lang=php><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-php data-lang=php>class Car
+{
+    private $make = &#39;Honda&#39;;
+    private $model = &#39;Accord&#39;;
+    private $color = &#39;white&#39;;
+
+    public function setMake(string $make): void
+    {
+        $this-&gt;make = $make;
+    }
+
+    public function setModel(string $model): void
+    {
+        $this-&gt;model = $model;
+    }
+
+    public function setColor(string $color): void
+    {
+        $this-&gt;color = $color;
+    }
+
+    public function dump(): void
+    {
+        var_dump($this-&gt;make, $this-&gt;model, $this-&gt;color);
+    }
+}
+
+$car = new Car();
+$car-&gt;setColor(&#39;pink&#39;);
+$car-&gt;setMake(&#39;Ford&#39;);
+$car-&gt;setModel(&#39;F-150&#39;);
+$car-&gt;dump();</code></pre></td></tr></table></div></div><p><strong><a href=#table-of-contents>⬆ back to top</a></strong></p><h3 id=prefer-final-classes>Prefer final classes</h3><p>The <code>final</code> should be used whenever possible:</p><ol><li>It prevents uncontrolled inheritance chain.</li><li>It encourages <a href=#prefer-composition-over-inheritance>composition</a>.</li><li>It encourages the <a href=#single-responsibility-principle-srp>Single Responsibility Pattern</a>.</li><li>It encourages developers to use your public methods instead of extending the class to get access on protected ones.</li><li>It allows you to change your code without any break of applications that use your class.</li></ol><p>The only condition is that your class should implement an interface and no other public methods are defined.</p><p>For more informations you can read <a href=https://ocramius.github.io/blog/when-to-declare-classes-final/>the blog post</a> on this topic written by <a href=https://ocramius.github.io/>Marco Pivetta (Ocramius)</a>.</p><p><strong>Bad:</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code class=language-php data-lang=php><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-php data-lang=php>final class Car
+{
+    private $color;
+
+    public function __construct($color)
+    {
+        $this-&gt;color = $color;
+    }
+
+    /**
+     * @return string The color of the vehicle
+     */
+    public function getColor()
+    {
+        return $this-&gt;color;
+    }
+}</code></pre></td></tr></table></div></div><p><strong>Good:</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code class=language-php data-lang=php><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-php data-lang=php>interface Vehicle
+{
+    /**
+     * @return string The color of the vehicle
+     */
+    public function getColor();
+}
+
+final class Car implements Vehicle
+{
+    private $color;
+
+    public function __construct($color)
+    {
+        $this-&gt;color = $color;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getColor()
+    {
+        return $this-&gt;color;
+    }
+}</code></pre></td></tr></table></div></div><p><strong><a href=#table-of-contents>⬆ back to top</a></strong></p><h2 id=solid>SOLID</h2><p><strong>SOLID</strong> is the mnemonic acronym introduced by Michael Feathers for the first five principles named by Robert Martin, which meant five basic principles of object-oriented programming and design.</p><ul><li><a href=#single-responsibility-principle-srp>S: Single Responsibility Principle (SRP)</a></li><li><a href=#openclosed-principle-ocp>O: Open/Closed Principle (OCP)</a></li><li><a href=#liskov-substitution-principle-lsp>L: Liskov Substitution Principle (LSP)</a></li><li><a href=#interface-segregation-principle-isp>I: Interface Segregation Principle (ISP)</a></li><li><a href=#dependency-inversion-principle-dip>D: Dependency Inversion Principle (DIP)</a></li></ul><h3 id=single-responsibility-principle-srp>Single Responsibility Principle (SRP)</h3><p>As stated in Clean Code, &ldquo;There should never be more than one reason for a class
+to change&rdquo;. It&rsquo;s tempting to jam-pack a class with a lot of functionality, like
+when you can only take one suitcase on your flight. The issue with this is
+that your class won&rsquo;t be conceptually cohesive and it will give it many reasons
+to change. Minimizing the amount of times you need to change a class is important.
+It&rsquo;s important because if too much functionality is in one class and you modify a piece of it,
+it can be difficult to understand how that will affect other dependent modules in
+your codebase.</p><p><strong>Bad:</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code class=language-php data-lang=php><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-php data-lang=php>class UserSettings
+{
+    private $user;
+
+    public function __construct(User $user)
+    {
+        $this-&gt;user = $user;
+    }
+
+    public function changeSettings(array $settings): void
+    {
+        if ($this-&gt;verifyCredentials()) {
+            // ...
+        }
+    }
+
+    private function verifyCredentials(): bool
+    {
+        // ...
+    }
+}</code></pre></td></tr></table></div></div><p><strong>Good:</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code class=language-php data-lang=php><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-php data-lang=php>class UserAuth
+{
+    private $user;
+
+    public function __construct(User $user)
+    {
+        $this-&gt;user = $user;
+    }
+
+    public function verifyCredentials(): bool
+    {
+        // ...
+    }
+}
+
+class UserSettings
+{
+    private $user;
+    private $auth;
+
+    public function __construct(User $user)
+    {
+        $this-&gt;user = $user;
+        $this-&gt;auth = new UserAuth($user);
+    }
+
+    public function changeSettings(array $settings): void
+    {
+        if ($this-&gt;auth-&gt;verifyCredentials()) {
+            // ...
+        }
+    }
+}</code></pre></td></tr></table></div></div><p><strong><a href=#table-of-contents>⬆ back to top</a></strong></p><h3 id=open-closed-principle-ocp>Open/Closed Principle (OCP)</h3><p>As stated by Bertrand Meyer, &ldquo;software entities (classes, modules, functions,
+etc.) should be open for extension, but closed for modification.&rdquo; What does that
+mean though? This principle basically states that you should allow users to
+add new functionalities without changing existing code.</p><p><strong>Bad:</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code class=language-php data-lang=php><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span><span class=lnt>52
+</span><span class=lnt>53
+</span><span class=lnt>54
+</span><span class=lnt>55
+</span><span class=lnt>56
+</span><span class=lnt>57
+</span><span class=lnt>58
+</span><span class=lnt>59
+</span><span class=lnt>60
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-php data-lang=php>abstract class Adapter
+{
+    protected $name;
+
+    public function getName(): string
+    {
+        return $this-&gt;name;
+    }
+}
+
+class AjaxAdapter extends Adapter
+{
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this-&gt;name = &#39;ajaxAdapter&#39;;
+    }
+}
+
+class NodeAdapter extends Adapter
+{
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this-&gt;name = &#39;nodeAdapter&#39;;
+    }
+}
+
+class HttpRequester
+{
+    private $adapter;
+
+    public function __construct(Adapter $adapter)
+    {
+        $this-&gt;adapter = $adapter;
+    }
+
+    public function fetch(string $url): Promise
+    {
+        $adapterName = $this-&gt;adapter-&gt;getName();
+
+        if ($adapterName === &#39;ajaxAdapter&#39;) {
+            return $this-&gt;makeAjaxCall($url);
+        } elseif ($adapterName === &#39;httpNodeAdapter&#39;) {
+            return $this-&gt;makeHttpCall($url);
+        }
+    }
+
+    private function makeAjaxCall(string $url): Promise
+    {
+        // request and return promise
+    }
+
+    private function makeHttpCall(string $url): Promise
+    {
+        // request and return promise
+    }
+}</code></pre></td></tr></table></div></div><p><strong>Good:</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code class=language-php data-lang=php><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-php data-lang=php>interface Adapter
+{
+    public function request(string $url): Promise;
+}
+
+class AjaxAdapter implements Adapter
+{
+    public function request(string $url): Promise
+    {
+        // request and return promise
+    }
+}
+
+class NodeAdapter implements Adapter
+{
+    public function request(string $url): Promise
+    {
+        // request and return promise
+    }
+}
+
+class HttpRequester
+{
+    private $adapter;
+
+    public function __construct(Adapter $adapter)
+    {
+        $this-&gt;adapter = $adapter;
+    }
+
+    public function fetch(string $url): Promise
+    {
+        return $this-&gt;adapter-&gt;request($url);
+    }
+}</code></pre></td></tr></table></div></div><p><strong><a href=#table-of-contents>⬆ back to top</a></strong></p><h3 id=liskov-substitution-principle-lsp>Liskov Substitution Principle (LSP)</h3><p>This is a scary term for a very simple concept. It&rsquo;s formally defined as &ldquo;If S
+is a subtype of T, then objects of type T may be replaced with objects of type S
+(i.e., objects of type S may substitute objects of type T) without altering any
+of the desirable properties of that program (correctness, task performed,
+etc.).&rdquo; That&rsquo;s an even scarier definition.</p><p>The best explanation for this is if you have a parent class and a child class,
+then the base class and child class can be used interchangeably without getting
+incorrect results. This might still be confusing, so let&rsquo;s take a look at the
+classic Square-Rectangle example. Mathematically, a square is a rectangle, but
+if you model it using the &ldquo;is-a&rdquo; relationship via inheritance, you quickly
+get into trouble.</p><p><strong>Bad:</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code class=language-php data-lang=php><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-php data-lang=php>class Rectangle
+{
+    protected $width = 0;
+    protected $height = 0;
+
+    public function setWidth(int $width): void
+    {
+        $this-&gt;width = $width;
+    }
+
+    public function setHeight(int $height): void
+    {
+        $this-&gt;height = $height;
+    }
+
+    public function getArea(): int
+    {
+        return $this-&gt;width * $this-&gt;height;
+    }
+}
+
+class Square extends Rectangle
+{
+    public function setWidth(int $width): void
+    {
+        $this-&gt;width = $this-&gt;height = $width;
+    }
+
+    public function setHeight(int $height): void
+    {
+        $this-&gt;width = $this-&gt;height = $height;
+    }
+}
+
+function printArea(Rectangle $rectangle): void
+{
+    $rectangle-&gt;setWidth(4);
+    $rectangle-&gt;setHeight(5);
+
+    // BAD: Will return 25 for Square. Should be 20.
+    echo sprintf(&#39;%s has area %d.&#39;, get_class($rectangle), $rectangle-&gt;getArea()).PHP_EOL;
+}
+
+$rectangles = [new Rectangle(), new Square()];
+
+foreach ($rectangles as $rectangle) {
+    printArea($rectangle);
+}</code></pre></td></tr></table></div></div><p><strong>Good:</strong></p><p>The best way is separate the quadrangles and allocation of a more general subtype for both shapes.</p><p>Despite the apparent similarity of the square and the rectangle, they are different.
+A square has much in common with a rhombus, and a rectangle with a parallelogram, but they are not subtype.
+A square, a rectangle, a rhombus and a parallelogram are separate shapes with their own properties, albeit similar.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code class=language-php data-lang=php><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-php data-lang=php>interface Shape
+{
+    public function getArea(): int;
+}
+
+class Rectangle implements Shape
+{
+    private $width = 0;
+    private $height = 0;
+
+    public function __construct(int $width, int $height)
+    {
+        $this-&gt;width = $width;
+        $this-&gt;height = $height;
+    }
+
+    public function getArea(): int
+    {
+        return $this-&gt;width * $this-&gt;height;
+    }
+}
+
+class Square implements Shape
+{
+    private $length = 0;
+
+    public function __construct(int $length)
+    {
+        $this-&gt;length = $length;
+    }
+
+    public function getArea(): int
+    {
+        return $this-&gt;length ** 2;
+    }
+}
+
+function printArea(Shape $shape): void
+{
+    echo sprintf(&#39;%s has area %d.&#39;, get_class($shape), $shape-&gt;getArea()).PHP_EOL;
+}
+
+$shapes = [new Rectangle(4, 5), new Square(5)];
+
+foreach ($shapes as $shape) {
+    printArea($shape);
+}</code></pre></td></tr></table></div></div><p><strong><a href=#table-of-contents>⬆ back to top</a></strong></p><h3 id=interface-segregation-principle-isp>Interface Segregation Principle (ISP)</h3><p>ISP states that &ldquo;Clients should not be forced to depend upon interfaces that
+they do not use.&rdquo;</p><p>A good example to look at that demonstrates this principle is for
+classes that require large settings objects. Not requiring clients to set up
+huge amounts of options is beneficial, because most of the time they won&rsquo;t need
+all of the settings. Making them optional helps prevent having a &ldquo;fat interface&rdquo;.</p><p><strong>Bad:</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code class=language-php data-lang=php><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-php data-lang=php>interface Employee
+{
+    public function work(): void;
+
+    public function eat(): void;
+}
+
+class HumanEmployee implements Employee
+{
+    public function work(): void
+    {
+        // ....working
+    }
+
+    public function eat(): void
+    {
+        // ...... eating in lunch break
+    }
+}
+
+class RobotEmployee implements Employee
+{
+    public function work(): void
+    {
+        //.... working much more
+    }
+
+    public function eat(): void
+    {
+        //.... robot can&#39;t eat, but it must implement this method
+    }
+}</code></pre></td></tr></table></div></div><p><strong>Good:</strong></p><p>Not every worker is an employee, but every employee is a worker.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code class=language-php data-lang=php><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-php data-lang=php>interface Workable
+{
+    public function work(): void;
+}
+
+interface Feedable
+{
+    public function eat(): void;
+}
+
+interface Employee extends Feedable, Workable
+{
+}
+
+class HumanEmployee implements Employee
+{
+    public function work(): void
+    {
+        // ....working
+    }
+
+    public function eat(): void
+    {
+        //.... eating in lunch break
+    }
+}
+
+// robot can only work
+class RobotEmployee implements Workable
+{
+    public function work(): void
+    {
+        // ....working
+    }
+}</code></pre></td></tr></table></div></div><p><strong><a href=#table-of-contents>⬆ back to top</a></strong></p><h3 id=dependency-inversion-principle-dip>Dependency Inversion Principle (DIP)</h3><p>This principle states two essential things:</p><ol><li>High-level modules should not depend on low-level modules. Both should
+depend on abstractions.</li><li>Abstractions should not depend upon details. Details should depend on
+abstractions.</li></ol><p>This can be hard to understand at first, but if you&rsquo;ve worked with PHP frameworks (like Symfony), you&rsquo;ve seen an implementation of this principle in the form of Dependency
+Injection (DI). While they are not identical concepts, DIP keeps high-level
+modules from knowing the details of its low-level modules and setting them up.
+It can accomplish this through DI. A huge benefit of this is that it reduces
+the coupling between modules. Coupling is a very bad development pattern because
+it makes your code hard to refactor.</p><p><strong>Bad:</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code class=language-php data-lang=php><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-php data-lang=php>class Employee
+{
+    public function work(): void
+    {
+        // ....working
+    }
+}
+
+class Robot extends Employee
+{
+    public function work(): void
+    {
+        //.... working much more
+    }
+}
+
+class Manager
+{
+    private $employee;
+
+    public function __construct(Employee $employee)
+    {
+        $this-&gt;employee = $employee;
+    }
+
+    public function manage(): void
+    {
+        $this-&gt;employee-&gt;work();
+    }
+}</code></pre></td></tr></table></div></div><p><strong>Good:</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code class=language-php data-lang=php><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-php data-lang=php>interface Employee
+{
+    public function work(): void;
+}
+
+class Human implements Employee
+{
+    public function work(): void
+    {
+        // ....working
+    }
+}
+
+class Robot implements Employee
+{
+    public function work(): void
+    {
+        //.... working much more
+    }
+}
+
+class Manager
+{
+    private $employee;
+
+    public function __construct(Employee $employee)
+    {
+        $this-&gt;employee = $employee;
+    }
+
+    public function manage(): void
+    {
+        $this-&gt;employee-&gt;work();
+    }
+}</code></pre></td></tr></table></div></div><p><strong><a href=#table-of-contents>⬆ back to top</a></strong></p><h2 id=don-t-repeat-yourself-dry>Don’t repeat yourself (DRY)</h2><p>Try to observe the <a href=https://en.wikipedia.org/wiki/Don%27t_repeat_yourself>DRY</a> principle.</p><p>Do your absolute best to avoid duplicate code. Duplicate code is bad because
+it means that there&rsquo;s more than one place to alter something if you need to
+change some logic.</p><p>Imagine if you run a restaurant and you keep track of your inventory: all your
+tomatoes, onions, garlic, spices, etc. If you have multiple lists that
+you keep this on, then all have to be updated when you serve a dish with
+tomatoes in them. If you only have one list, there&rsquo;s only one place to update!</p><p>Often you have duplicate code because you have two or more slightly
+different things, that share a lot in common, but their differences force you
+to have two or more separate functions that do much of the same things. Removing
+duplicate code means creating an abstraction that can handle this set of different
+things with just one function/module/class.</p><p>Getting the abstraction right is critical, that&rsquo;s why you should follow the
+SOLID principles laid out in the <a href=#classes>Classes</a> section. Bad abstractions can be
+worse than duplicate code, so be careful! Having said this, if you can make
+a good abstraction, do it! Don&rsquo;t repeat yourself, otherwise you&rsquo;ll find yourself
+updating multiple places any time you want to change one thing.</p><p><strong>Bad:</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code class=language-php data-lang=php><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-php data-lang=php>function showDeveloperList(array $developers): void
+{
+    foreach ($developers as $developer) {
+        $expectedSalary = $developer-&gt;calculateExpectedSalary();
+        $experience = $developer-&gt;getExperience();
+        $githubLink = $developer-&gt;getGithubLink();
+        $data = [
+            $expectedSalary,
+            $experience,
+            $githubLink
+        ];
+
+        render($data);
+    }
+}
+
+function showManagerList(array $managers): void
+{
+    foreach ($managers as $manager) {
+        $expectedSalary = $manager-&gt;calculateExpectedSalary();
+        $experience = $manager-&gt;getExperience();
+        $githubLink = $manager-&gt;getGithubLink();
+        $data = [
+            $expectedSalary,
+            $experience,
+            $githubLink
+        ];
+
+        render($data);
+    }
+}</code></pre></td></tr></table></div></div><p><strong>Good:</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code class=language-php data-lang=php><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-php data-lang=php>function showList(array $employees): void
+{
+    foreach ($employees as $employee) {
+        $expectedSalary = $employee-&gt;calculateExpectedSalary();
+        $experience = $employee-&gt;getExperience();
+        $githubLink = $employee-&gt;getGithubLink();
+        $data = [
+            $expectedSalary,
+            $experience,
+            $githubLink
+        ];
+
+        render($data);
+    }
+}</code></pre></td></tr></table></div></div><p><strong>Very good:</strong></p><p>It is better to use a compact version of the code.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code class=language-php data-lang=php><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-php data-lang=php>function showList(array $employees): void
+{
+    foreach ($employees as $employee) {
+        render([
+            $employee-&gt;calculateExpectedSalary(),
+            $employee-&gt;getExperience(),
+            $employee-&gt;getGithubLink()
+        ]);
+    }
+}</code></pre></td></tr></table></div></div><p><strong><a href=#table-of-contents>⬆ back to top</a></strong></p></div><div class=post-copyright><p class=copyright-item><span class=item-title>文章作者</span>
+<span class=item-content>Feng-Chi</span></p><p class=copyright-item><span class=item-title>上次更新</span>
+<span class=item-content>2020-07-30</span></p><p class=copyright-item><span class=item-title>許可協議</span>
+<span class=item-content><a rel="license noopener" href=https://creativecommons.org/licenses/by-nc-nd/4.0/ target=_blank>CC BY-NC-ND 4.0</a></span></p></div><footer class=post-footer><div class=post-tags><a href=/tags/clean-code/>clean code</a>
+<a href=/tags/php/>php</a></div><nav class=post-nav><a class=prev href=/post/2020/07/30/clean-code-javascript/><i class="iconfont icon-left"></i><span class="prev-text nav-default">Clean Code 系列 - Javascript</span>
+<span class="prev-text nav-mobile">上一篇</span></a>
+<a class=next href=/post/2020/07/cross-domain/><span class="next-text nav-default">關於 Web 跨域相關紀錄</span>
+<span class="next-text nav-mobile">下一篇</span>
+<i class="iconfont icon-right"></i></a></nav></footer></article></div><div id=comments-gitment></div><link rel=stylesheet href=https://cdn.jsdelivr.net/gh/theme-next/theme-next-gitment@1/default.min.css crossorigin=anonymous><script src=https://cdn.jsdelivr.net/gh/theme-next/theme-next-gitment@1/gitment.browser.min.js crossorigin=anonymous></script><script type=text/javascript>var gitment=new Gitment({id:'2020-07-30 08:10:05 \x2b0800 \x2b0800',title:'Clean Code 系列 - PHP',link:decodeURI(location.href),desc:'',owner:'holmeslin',repo:'holmeslin.github.io',oauth:{client_id:'05f414719d56905a1d49',client_secret:'7d76251defef60a6cc6aa55627c7c2f51b7429b0'}});gitment.render('comments-gitment');</script><noscript>Please enable JavaScript to view the <a href=https://github.com/imsun/gitment>comments powered by gitment.</a></noscript></div></main><footer id=footer class=footer><div class=social-links><a href=mailto:holmes.lin@gmail.com class="iconfont icon-email" title=email></a><a href=https://facebook.com/fengchilin class="iconfont icon-facebook" title=facebook></a><a href=https://www.linkedin.com/in/holmeslin/ class="iconfont icon-linkedin" title=linkedin></a><a href=https://github.com/holmeslin class="iconfont icon-github" title=github></a><a href=https://holmeslin.github.io/index.xml type=application/rss+xml class="iconfont icon-rss" title=rss></a></div><div class=copyright><span class=power-by>Powered by <a class=hexo-link href=https://gohugo.io>Hugo</a></span>
+<span class=division>|</span>
+<span class=theme-info>Theme -
+<a class=theme-link href=https://github.com/olOwOlo/hugo-theme-even>Even</a></span>
+<span class=copyright-year>&copy;
+2019 -
+2020
+<span class=heart><i class="iconfont icon-heart"></i></span><span class=author>Feng-Chi</span></span></div></footer><div class=back-to-top id=back-to-top><i class="iconfont icon-up"></i></div></div><script src=https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin=anonymous></script><script src=https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin=anonymous></script><script src=https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin=anonymous></script><script type=text/javascript src=/js/main.min.d7b7ada643c9c1a983026e177f141f7363b4640d619caf01d8831a6718cd44ea.js></script></body></html>
