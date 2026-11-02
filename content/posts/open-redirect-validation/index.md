@@ -2,7 +2,7 @@
 title: "檢查 ?redirect= 防 open redirect"
 date: 2026-11-02T10:00:00+08:00
 lastmod: 2026-11-02T10:00:00+08:00
-draft: true
+draft: false
 description: "SPA 登入頁常用 ?redirect= 把使用者帶回原本的頁面。只檢查開頭是不是 / 擋不住反斜線、tab 和編碼過的路徑，這篇用四層檢查加上 new URL 比對 origin，把它寫成一個 TypeScript type guard。"
 categories: [security]
 tags: [typescript, web]
