@@ -2,7 +2,7 @@
 title: "url.Redacted() 遮不住的 token"
 date: 2026-11-02T13:00:00+08:00
 lastmod: 2026-11-02T13:00:00+08:00
-draft: true
+draft: false
 description: "Go 的 Redacted() 只遮密碼。token 放在 username、query 或 fragment 時都會原樣印出來，url.Parse 的錯誤訊息也會。這篇整理哪些情況會漏，以及一個只輸出 scheme 和 host 的寫法。"
 categories: [backend]
 tags: [go, logging]
