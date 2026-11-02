@@ -2,7 +2,7 @@
 title: "用 Claude Code hook 擋危險指令"
 date: 2026-11-02T11:00:00+08:00
 lastmod: 2026-11-02T11:00:00+08:00
-draft: true
+draft: false
 description: "同樣是 PreToolUse hook，擋危險指令的要 fail-closed，提醒用的要 fail-open。用兩支 bash 腳本說明兩種設計、onFailure 設定，以及怎麼測試 hook。"
 categories: [ai]
 tags: [claude-code, bash]
