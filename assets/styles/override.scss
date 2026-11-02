@@ -1,0 +1,5 @@
+// Sidebar group toggle (layouts/partials/navigators/sidebar.html): show + when collapsed, − when open
+.sidebar-tree li.open > a > .feather-plus-circle,
+.sidebar-tree li:not(.open) > a > .feather-minus-circle {
+  display: none;
+}
