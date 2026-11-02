@@ -1,19 +1,13 @@
 ---
 title: "編譯原始碼安裝 Nginx 在 RHEL / CentOS 環境下"
 date: 2020-07-09T14:01:14+08:00
+categories: [devops]
+tags: [nginx, centos, linux]
 lastmod: 2020-07-09T14:01:14+08:00
 keywords: []
 description: ""
-tags: ["nginx","server","centos"]
-categories: ["紀錄"]
 aliases:
   - /post/2020/07/build-nginx-centos/
-menu:
-  sidebar:
-    name: "編譯原始碼安裝 Nginx 在 RHEL / CentOS 環境下"
-    identifier: build-nginx-centos
-    parent: nginx-server
-    weight: 20
 ---
 
 <!--more-->

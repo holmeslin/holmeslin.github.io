@@ -3,3 +3,8 @@
 .sidebar-tree li:not(.open) > a > .feather-minus-circle {
   display: none;
 }
+
+.sidebar-tree li.sidebar-empty {
+  opacity: 0.6;
+  font-style: italic;
+}

@@ -1,19 +1,13 @@
 ---
 title: "Goroutine 和 Channel 講解"
 date: 2020-07-08T10:36:17+08:00
+categories: [backend]
+tags: [go, concurrency]
 lastmod: 2020-07-08T10:36:17+08:00
 keywords: []
 description: ""
-tags: ["golang"]
-categories: ["紀錄","學習"]
 aliases:
   - /post/2020/07/go-goruutine-channel/
-menu:
-  sidebar:
-    name: "Goroutine 和 Channel 講解"
-    identifier: go-goroutine-channel
-    parent: go
-    weight: 10
 ---
 
 ## 前言

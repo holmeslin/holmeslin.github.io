@@ -1,19 +1,13 @@
 ---
 title: "RHEL(CentOS) 離線安裝套件"
 date: 2020-07-09T14:14:35+08:00
+categories: [devops]
+tags: [centos, linux]
 lastmod: 2020-07-09T14:14:35+08:00
 keywords: []
 description: ""
-tags: ["server","centos","offline"]
-categories: ["紀錄"]
 aliases:
   - /post/2020/07/server-offlne-install-software/
-menu:
-  sidebar:
-    name: "RHEL(CentOS) 離線安裝套件"
-    identifier: server-offline-install-software
-    parent: nginx-server
-    weight: 30
 ---
 
 <!--more-->
