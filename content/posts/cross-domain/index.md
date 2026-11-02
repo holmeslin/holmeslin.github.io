@@ -1,20 +1,14 @@
 ---
 title: '關於 Web 跨域相關紀錄'
 date: 2020-07-14T08:51:19+08:00
+categories: [frontend]
+tags: [cors, http]
 lastmod: 2020-07-14T08:51:19+08:00
 draft: false
 keywords: ['CORS']
 description: ''
-tags: ['CORS', 'web']
-categories: ['紀錄']
 aliases:
   - /post/2020/07/cross-domain/
-menu:
-  sidebar:
-    name: "關於 Web 跨域相關紀錄"
-    identifier: cross-domain
-    parent: javascript-web
-    weight: 20
 ---
 
 ## 前言

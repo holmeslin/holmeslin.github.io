@@ -1,20 +1,12 @@
 ---
 title: "本站建置過程紀錄"
 date: 2020-07-07T14:29:40+08:00
+categories: [devops]
+tags: [hugo, github-pages]
 draft: false
-tags:
-    - "hugo"
-categories:
-    - "紀錄"  
 description:
 aliases:
   - /post/2020/07/blog-build-process/
-menu:
-  sidebar:
-    name: "本站建置過程紀錄"
-    identifier: blog-build-process
-    parent: site
-    weight: 10
 ---
 > 紀錄建置過程
 

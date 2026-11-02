@@ -19,7 +19,7 @@ hugo new posts/<slug>/index.md
 ```
 
 1. 每篇文章是一個資料夾（page bundle），圖片可以直接放在同一個資料夾。
-2. 在 front matter 的 `menu.sidebar.parent` 填入側欄群組：`go`、`javascript-web`、`nginx-server`、`clean-code`、`site`（定義在 `hugo.yaml` 的 `menus.sidebar`）。
+2. 在 front matter 的 `categories` 填一個主分類：`backend`（後端）、`frontend`（前端）、`devops`（維運與雲原生）、`ai`、`security`（資安）、`software-engineering`（軟體工程）。側欄會依分類自動列出文章。`tags` 用英文小寫加連字號，1～3 個，不重複分類名稱。新增分類時，在 `content/categories/<代號>/_index.md` 設定中文名稱（`title`）和排序（`weight`）。
 3. 寫完把 `draft: true` 改成 `false`。
 4. 在摘要段落後面放 `<!--more-->`，首頁卡片只會顯示這段之前的內容。
 

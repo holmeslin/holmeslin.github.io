@@ -1,20 +1,11 @@
 ---
 title: "Go 語言 sync 包的應用詳解"
 date: 2020-07-07T15:07:16+08:00
-tags:
-    - "golang"
-categories:
-    - "紀錄"
-    - "學習"
+categories: [backend]
+tags: [go, concurrency]
 description:
 aliases:
   - /post/2020/07/go-sync/
-menu:
-  sidebar:
-    name: "Go 語言 sync 包的應用詳解"
-    identifier: go-sync
-    parent: go
-    weight: 20
 ---
 
 並發程式中的同步也就是我們通常說的鎖的主要作用是保證多個線程或者 `goroutine` 在訪問同一片內存時不會出現混亂的問題。
