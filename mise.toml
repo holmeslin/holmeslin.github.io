@@ -1,0 +1,19 @@
+# Single source of truth for tool versions: local dev and CI (jdx/mise-action) both read this.
+[tools]
+hugo-extended = "0.169.0"
+go = "1.25"
+node = "24"
+
+[tasks.install]
+description = "Fetch the toha Hugo module and its npm dependencies"
+run = ["hugo mod tidy", "hugo mod npm pack", "npm install"]
+
+[tasks.dev]
+description = "Local preview with drafts at http://localhost:1313"
+depends = ["install"]
+run = "hugo server -D"
+
+[tasks.build]
+description = "Production build into public/ (same as CI)"
+depends = ["install"]
+run = "hugo --gc --minify --cleanDestinationDir"

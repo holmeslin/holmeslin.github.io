@@ -1,0 +1,28 @@
+section:
+  name: About
+  id: about
+  enable: true
+  weight: 1
+  showOnNavbar: true
+  template: sections/about.html
+
+designation: 全端工程師
+
+summary: |
+  Hi，這是一個筆記型的部落格，主要是年紀大了記不住了（哈哈）。
+
+  主要內容大部分會著重於個人學習、程式類筆記，也會紀錄一些個人旅遊等資訊。
+
+socialLinks:
+  - name: Email
+    icon: "fas fa-envelope"
+    url: "holmes.lin@gmail.com"
+  - name: GitHub
+    icon: "fab fa-github"
+    url: "https://github.com/holmeslin"
+  - name: LinkedIn
+    icon: "fab fa-linkedin"
+    url: "https://www.linkedin.com/in/holmeslin/"
+  - name: Facebook
+    icon: "fab fa-facebook"
+    url: "https://facebook.com/fengchilin"
