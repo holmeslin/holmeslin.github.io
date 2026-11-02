@@ -2,7 +2,7 @@
 title: "用 os.Root 寫一個安全的 Go 檔案儲存"
 date: 2026-11-02T14:00:00+08:00
 lastmod: 2026-11-02T14:00:00+08:00
-draft: true
+draft: false
 description: "用 Go 1.24 的 os.Root 擋住路徑跳脫與 symlink，再補上原子寫入和 FIFO 防護，做出一個不怕使用者亂給檔名的上傳儲存區。"
 categories: [backend]
 tags: [go, filesystem]
