@@ -58,7 +58,10 @@ export function isSafeRedirect(p: unknown, origin: string): p is string {
   if (decoded.startsWith('//') || decoded.includes('\\')) return false
   // 4. 最後一道：用自己的 origin 解析，結果必須還是自己的 origin
   try {
-    return new URL(p, origin).origin === origin
+    return (
+      new URL(p, origin).origin === origin &&
+      new URL(decoded, origin).origin === origin
+    )
   } catch {
     return false
   }
