@@ -1,19 +1,13 @@
 ---
 title: "Nginx 相關設定"
 date: 2020-07-09T14:20:56+08:00
+categories: [devops]
+tags: [nginx]
 lastmod: 2020-07-09T14:20:56+08:00
 keywords: []
 description: ""
-tags: ["nginx"]
-categories: ["紀錄"]
 aliases:
   - /post/2020/07/nginx-setting-record/
-menu:
-  sidebar:
-    name: "Nginx 相關設定"
-    identifier: nginx-setting-record
-    parent: nginx-server
-    weight: 10
 ---
 
 <!--more-->

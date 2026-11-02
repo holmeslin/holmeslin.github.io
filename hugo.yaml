@@ -46,25 +46,6 @@ sitemap:
   priority: 0.5
   filename: sitemap.xml
 
-# Sidebar groups; posts attach to them via front matter `menu.sidebar.parent`
-menus:
-  sidebar:
-    - identifier: go
-      name: Go
-      weight: 10
-    - identifier: javascript-web
-      name: JavaScript / Web
-      weight: 20
-    - identifier: nginx-server
-      name: Nginx / 伺服器
-      weight: 30
-    - identifier: clean-code
-      name: Clean Code
-      weight: 40
-    - identifier: site
-      name: 網站建置
-      weight: 50
-
 params:
   logo:
     favicon: /images/site/favicon.png

@@ -1,20 +1,14 @@
 ---
 title: "JavaScript 筆記"
 date: 2020-10-15T15:43:43+08:00
+categories: [frontend]
+tags: [javascript]
 lastmod: 2020-10-15T15:43:43+08:00
 draft: false
 keywords: []
 description: ""
-tags: ["javascript"]
-categories: ["紀錄"]
 aliases:
   - /post/2020/10/javscript-note/
-menu:
-  sidebar:
-    name: "JavaScript 筆記"
-    identifier: javascript-note
-    parent: javascript-web
-    weight: 10
 ---
  
 紀錄 Javscript 相關筆記

@@ -1,21 +1,20 @@
-{{/* Override of toha's sidebar: a group name toggles its post list instead of linking to a page */}}
-{{ range .menuItems }}
-  {{ $class:= "" }}
-  <!-- If the current menu is the selected menu or it contain the selected menu, set "active" class -->
-  {{ if or ($.ctx.HasMenuCurrent $.menuName .)  ($.ctx.IsMenuCurrent $.menuName .)}}
-    {{ $class = "active" }}
-  {{end}}
-  {{ if .HasChildren }}
+{{/* Override of toha's sidebar: groups come from the `categories` taxonomy (ordered by the term page's weight) instead of menus,
+     and a group name toggles its post list instead of linking to a page. */}}
+{{ with site.GetPage "/categories" }}
+  {{ range .Pages.ByWeight }}
+    {{ $posts := .Pages.ByDate.Reverse }}
+    {{ $class := cond (in $posts $.ctx) "active" "" }}
     <li class="{{ if $class }}open{{ end }}">
-      <a href="#" role="button" class="{{$class}} list-link" onclick="this.parentElement.classList.toggle('open');this.nextElementSibling.classList.toggle('active');return false"><i data-feather="plus-circle"></i><i data-feather="minus-circle"></i> {{.Name}}</a>
+      <a href="#" role="button" class="{{ $class }} list-link" onclick="this.parentElement.classList.toggle('open');this.nextElementSibling.classList.toggle('active');return false"><i data-feather="plus-circle"></i><i data-feather="minus-circle"></i> {{ .Title }}</a>
       <ul class="{{ $class }}">
-        {{ partial "navigators/sidebar.html" (dict "menuName" $.menuName "menuItems" .Children "ctx" $.ctx) }}
+        {{ range $posts }}
+          {{ if not .Params.hidden }}
+          <li><a class="{{ if eq . $.ctx }}active {{ end }}list-link" href="{{ .RelPermalink }}" title="{{ .LinkTitle }}">{{ .LinkTitle }}</a></li>
+          {{ end }}
+        {{ else }}
+          <li class="sidebar-empty">尚無文章</li>
+        {{ end }}
       </ul>
     </li>
-  {{ else }}
-    <!-- Leaf node. Add menu entry only if page is not marked as hidden -->
-    {{ if not .Page.Params.hidden }}
-    <li><a class="{{$class}} list-link" href="{{ .PageRef | default .URL }}" title="{{ .Name }}">{{.Name}}</a></li>
-    {{ end }}
   {{ end }}
 {{ end }}
