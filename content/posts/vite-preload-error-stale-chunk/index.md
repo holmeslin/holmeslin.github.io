@@ -2,7 +2,7 @@
 title: "Vite 部署後舊分頁點不動"
 date: 2026-11-02T12:00:00+08:00
 lastmod: 2026-11-02T12:00:00+08:00
-draft: true
+draft: false
 description: "Vite SPA 部署新版後，停在舊版的分頁會因為找不到舊 chunk 而點不動。用 vite:preloadError 自動重新整理，並處理無限重整、重複觸發、時鐘被調回過去與 storage 被停用等狀況。"
 categories: [frontend]
 tags: [vite, vue]
