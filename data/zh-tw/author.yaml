@@ -4,8 +4,10 @@ greeting: "Hi，我是"
 image: "images/author/feng-chi.png"
 contactInfo:
   email: "holmes.lin@gmail.com"
-  github: holmeslin
   linkedin: holmeslin
 summary:
-  - 全端工程師
+  - 資深全端工程師
+  - Go ＋ Vue 3
+  - 雲原生與資安
+  - AI 輔助開發
   - 記錄學習與程式筆記

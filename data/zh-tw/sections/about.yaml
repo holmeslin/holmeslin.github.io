@@ -1,28 +1,27 @@
 section:
-  name: About
+  name: 關於
   id: about
   enable: true
   weight: 1
   showOnNavbar: true
   template: sections/about.html
 
-designation: 全端工程師
+designation: 資深全端工程師
+company:
+  name: 國家資通安全研究院
+  url: "https://www.nics.nat.gov.tw/"
 
 summary: |
-  Hi，這是一個筆記型的部落格，主要是年紀大了記不住了（哈哈）。
+  20 年資訊經歷：前 8 年在 ISP 做網路維運，之後 12 年投入全端與平台開發，現任國家資通安全研究院軟體工程師。
 
-  主要內容大部分會著重於個人學習、程式類筆記，也會紀錄一些個人旅遊等資訊。
+  主力技術是 Go 與 Vue 3，熟悉 Node.js、PostgreSQL、Kubernetes＋Argo CD 與 GCP／AWS。曾主導全公司 GenAI 平台（Chat／MCP／RAG）、日均 950 萬次呼叫的 API Gateway，以及 20+ 套系統接入的統一 2FA 服務。
+
+  日常以 Claude Code 進行 AI 輔助開發，習慣先寫規格再實作。這個網站是我的筆記本，年紀大了記不住，學到的就寫下來（哈哈）。
 
 socialLinks:
   - name: Email
     icon: "fas fa-envelope"
     url: "holmes.lin@gmail.com"
-  - name: GitHub
-    icon: "fab fa-github"
-    url: "https://github.com/holmeslin"
   - name: LinkedIn
     icon: "fab fa-linkedin"
     url: "https://www.linkedin.com/in/holmeslin/"
-  - name: Facebook
-    icon: "fab fa-facebook"
-    url: "https://facebook.com/fengchilin"
