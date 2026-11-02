@@ -33,6 +33,7 @@ The `WARN deprecated: css.Sass: libsass` line comes from the theme itself; it is
 - Every post has exactly one `categories` slug, and that is its sidebar group. Each category is a term page `content/categories/<slug>/_index.md` whose `title` is the Chinese display name and `weight` the sidebar order; the term page also makes an empty category show up (as 「尚無文章」). Posts inside a group are newest first, labelled by `.LinkTitle`.
 - `tags` are lowercase-kebab, 1–3 per post, and do not repeat the category.
 - Posts migrated from the old `even` theme carry `aliases:` for their old `/post/YYYY/MM/<slug>/` URLs (and `content/_index.md` aliases `/about/` to the homepage). Keep these when renaming or moving posts.
+- A post dated in the future is silently skipped (`buildFuture` is off), even with `-D`; set `date` to the past.
 - Put `<!--more-->` after the intro: post cards show `.Summary`, not `description`.
 - toha's post cards render `tags` but not `categories`. The theme's `/categories/` index lists only non-empty terms, alphabetically.
 - To override the post author, set `author` front matter as a map (`{name, image}`); otherwise omit it and `data/zh-tw/author.yaml` is used.
