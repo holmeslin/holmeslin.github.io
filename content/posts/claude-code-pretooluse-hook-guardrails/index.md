@@ -1,5 +1,5 @@
 ---
-title: "用 Claude Code 的 PreToolUse hook 當護欄：fail-closed 與 fail-open"
+title: "用 Claude Code hook 擋危險指令"
 date: 2026-11-02T11:00:00+08:00
 lastmod: 2026-11-02T11:00:00+08:00
 draft: true
