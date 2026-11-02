@@ -1,5 +1,5 @@
 ---
-title: "登入後的 ?redirect= 要怎麼檢查：防 open redirect 的四層驗證"
+title: "檢查 ?redirect= 防 open redirect"
 date: 2026-11-02T10:00:00+08:00
 lastmod: 2026-11-02T10:00:00+08:00
 draft: true
