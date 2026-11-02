@@ -1,0 +1,9 @@
+# shortcut: end year is static because data files are not templated; bump it each year or override the footer partial
+copyright: © 2019–2026 Feng-Chi
+disclaimer: '內容採 <a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">CC BY-NC-ND 4.0</a> 授權。'
+description: Feng-Chi 的個人筆記：學習、程式與生活紀錄。
+openGraph:
+  title: "Feng-Chi's Notes"
+  type: website
+  description: Feng-Chi 的個人筆記：學習、程式與生活紀錄。
+  url: https://holmeslin.github.io/
