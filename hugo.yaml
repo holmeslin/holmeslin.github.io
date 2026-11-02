@@ -51,23 +51,18 @@ menus:
   sidebar:
     - identifier: go
       name: Go
-      url: /tags/golang/
       weight: 10
     - identifier: javascript-web
       name: JavaScript / Web
-      url: /tags/javascript/
       weight: 20
     - identifier: nginx-server
       name: Nginx / 伺服器
-      url: /tags/server/
       weight: 30
     - identifier: clean-code
       name: Clean Code
-      url: /tags/clean-code/
       weight: 40
     - identifier: site
       name: 網站建置
-      url: /tags/hugo/
       weight: 50
 
 params:
