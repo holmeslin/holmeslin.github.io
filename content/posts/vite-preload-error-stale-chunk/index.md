@@ -97,7 +97,13 @@ export function claimReload(storage: KV, now: number, isBusy: () => boolean): bo
 export function installStaleChunkReload(isBusy: () => boolean, notify: (msg: string) => void): void {
   window.addEventListener('vite:preloadError', (event) => {
     event.preventDefault() // 不呼叫的話，Vite 會把原本的錯誤再丟出去
-    if (claimReload(window.sessionStorage, Date.now(), isBusy)) {
+    let shouldReload = false
+    try {
+      shouldReload = claimReload(window.sessionStorage, Date.now(), isBusy)
+    } catch {
+      // sessionStorage getter 本身也可能丟出 SecurityError
+    }
+    if (shouldReload) {
       window.location.reload()
     } else {
       notify('網站已更新，請重新整理頁面')
