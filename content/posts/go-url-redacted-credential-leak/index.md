@@ -1,5 +1,5 @@
 ---
-title: "url.URL.Redacted() 不夠用：連線字串裡的 token 會原樣進到 log"
+title: "url.Redacted() 遮不住的 token"
 date: 2026-11-02T13:00:00+08:00
 lastmod: 2026-11-02T13:00:00+08:00
 draft: true
