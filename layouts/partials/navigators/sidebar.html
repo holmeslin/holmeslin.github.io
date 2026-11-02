@@ -1,0 +1,21 @@
+{{/* Override of toha's sidebar: a group name toggles its post list instead of linking to a page */}}
+{{ range .menuItems }}
+  {{ $class:= "" }}
+  <!-- If the current menu is the selected menu or it contain the selected menu, set "active" class -->
+  {{ if or ($.ctx.HasMenuCurrent $.menuName .)  ($.ctx.IsMenuCurrent $.menuName .)}}
+    {{ $class = "active" }}
+  {{end}}
+  {{ if .HasChildren }}
+    <li class="{{ if $class }}open{{ end }}">
+      <a href="#" role="button" class="{{$class}} list-link" onclick="this.parentElement.classList.toggle('open');this.nextElementSibling.classList.toggle('active');return false"><i data-feather="plus-circle"></i><i data-feather="minus-circle"></i> {{.Name}}</a>
+      <ul class="{{ $class }}">
+        {{ partial "navigators/sidebar.html" (dict "menuName" $.menuName "menuItems" .Children "ctx" $.ctx) }}
+      </ul>
+    </li>
+  {{ else }}
+    <!-- Leaf node. Add menu entry only if page is not marked as hidden -->
+    {{ if not .Page.Params.hidden }}
+    <li><a class="{{$class}} list-link" href="{{ .PageRef | default .URL }}" title="{{ .Name }}">{{.Name}}</a></li>
+    {{ end }}
+  {{ end }}
+{{ end }}
