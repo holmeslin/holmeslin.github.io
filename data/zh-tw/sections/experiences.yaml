@@ -1,0 +1,61 @@
+section:
+  name: 工作經歷
+  id: experiences
+  enable: true
+  weight: 2
+  showOnNavbar: true
+
+experiences:
+  - company:
+      name: 國家資通安全研究院
+      url: "https://www.nics.nat.gov.tw/"
+      location: 台南市
+    positions:
+      - designation: 軟體工程師
+        start: 2025/11
+        responsibilities:
+          - 以 Go（Clean Architecture）與 Vue 3 開發資料協作平台，負責 JWT／RBAC 認證授權、PostgreSQL Schema 設計與可續傳的分段上傳。
+          - 統一多環境部署設定，消除設定漂移，並以 GitHub Actions 做 GitOps 部署。
+          - 以 NATS JetStream 處理服務間協調，建置 OpenTelemetry 日誌管線並整合 Loki／Grafana／Tempo。
+          - 建立 CODEOWNERS、PR 範本、Git Flow＋Conventional Commits 規範，並依 OWASP Top 10 分級修補 SAST 掃描結果。
+          - 擔任內部 GoF 設計模式系列課程講師；以 Claude Code 實踐規格先行的 AI 輔助開發。
+
+  - company:
+      name: 群創光電
+      url: "https://www.innolux.com/"
+      location: 台南市
+    positions:
+      - designation: 主任工程師
+        start: 2019/4
+        end: 2025/10
+        responsibilities:
+          - "**GenAI 管理平台（主導設計與實作）**：統一串接 OpenAI／Azure／GCP 模型，整合 2FA、權限、稽核與內容審查，提供 Chat／MCP／Agent／RAG 功能，開放全公司使用，尖峰約 100+ rps。"
+          - "**API Gateway／Mobile API 通道**：導入限流、IP 白名單、傳輸加密與審計追蹤；日均 950 萬+ 次呼叫，錯誤率與濫用事件下降約 90%，並通過弱掃與滲透測試。"
+          - "**雲平台（地端 K8s＋GCP／AWS）**：以 Web 控台整合專案申請、權限、弱點掃描與映像檔管理，服務上線與權限開通由 1~2 天縮短至 1~2 小時。"
+          - "**統一 2FA 與金鑰管理服務**：全公司 20+ 套系統接入。"
+          - "**監控與健康檢查**：MTTR 縮短約 80%，服務可用性達 99.99%。"
+
+  - company:
+      name: 成功大學創新數位內容研究中心
+      location: 台南市
+    positions:
+      - designation: 網頁程式工程師
+        start: 2014/8
+        end: 2019/3
+        responsibilities:
+          - "**健康手環管理系統**：接手後重整架構與流程，整體效率提升 80%+，推廣至台南 50+ 所國中小。"
+          - "**綠幣獎勵系統**：以 PHP／Node.js 處理數據與點數兌換，並整合一卡通卡機完成現金加值。"
+          - 科技部高瞻計畫網站與數據分析、成大智慧校園 iNCKU 網站建置。
+
+  - company:
+      name: 雙子星有線電視
+      location: 台南市
+    positions:
+      - designation: 網路維運工程師
+        start: 2006/2
+        end: 2014/5
+        responsibilities:
+          - ISP 機房管理，維護 20+ 台伺服器、路由器、防火牆與光纖線路；管理 50+ 台網路設備的設定、路由與監控。
+          - 以 Shell Script、Perl、PHP 與 SNMP 協助監控網路上十幾萬台 Cable Modem。
+          - 規劃並建置宿舍光纖網路，服務 1000+ 位用戶。
+          - 以 MRTG 建置值班監控網頁與流量報表，報表整理效率提升 90%。

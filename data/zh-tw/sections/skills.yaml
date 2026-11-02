@@ -1,0 +1,88 @@
+section:
+  name: 技能
+  id: skills
+  enable: true
+  weight: 3
+  showOnNavbar: true
+  filter: true
+
+buttons:
+  - name: 全部
+    filter: "all"
+  - name: 後端
+    filter: "backend"
+  - name: 前端
+    filter: "frontend"
+  - name: 雲端與 DevOps
+    filter: "cloud"
+  - name: 資料與可觀測性
+    filter: "data"
+  - name: AI
+    filter: "ai"
+
+# Logos: devicon 2.18.0 (MIT), https://devicon.dev
+skills:
+  - name: Go
+    logo: /images/sections/skills/go.svg
+    summary: 主力後端語言，以 Gin 與 Clean Architecture 開發平台服務。
+    categories: ["backend"]
+  - name: Node.js
+    logo: /images/sections/skills/nodejs.svg
+    summary: 以 Express 開發 API 與資料處理服務。
+    categories: ["backend"]
+  - name: Python
+    logo: /images/sections/skills/python.svg
+    summary: 以 FastAPI／Flask 開發服務與資料處理流程。
+    categories: ["backend", "ai"]
+  - name: API 安全與身分驗證
+    icon: "fas fa-shield-halved"
+    summary: API Gateway、限流、JWT／OAuth2、2FA、WebAuthn（Passkey）、mTLS 與稽核追蹤。
+    categories: ["backend"]
+  - name: Vue.js
+    logo: /images/sections/skills/vuejs.svg
+    summary: 以 Vue 3 開發平台前端與管理介面。
+    categories: ["frontend"]
+  - name: PostgreSQL
+    logo: /images/sections/skills/postgresql.svg
+    summary: 主要的關聯式資料庫，負責 Schema 設計與查詢調校。
+    categories: ["data"]
+  - name: NATS JetStream
+    logo: /images/sections/skills/nats.svg
+    summary: 服務間的訊息傳遞與事件協調。
+    categories: ["backend", "data"]
+  - name: OpenTelemetry
+    logo: /images/sections/skills/opentelemetry.svg
+    summary: 建置日誌與追蹤管線，串接 Loki／Tempo。
+    categories: ["data"]
+  - name: Grafana
+    logo: /images/sections/skills/grafana.svg
+    summary: 整合 Loki／Tempo 的監控儀表板與告警。
+    categories: ["data"]
+  - name: Kubernetes
+    logo: /images/sections/skills/kubernetes.svg
+    summary: 地端 K8s 與雲端叢集的部署與維運。
+    categories: ["cloud"]
+  - name: Argo CD
+    logo: /images/sections/skills/argocd.svg
+    summary: 以 GitOps 方式做持續部署。
+    categories: ["cloud"]
+  - name: GitHub Actions
+    logo: /images/sections/skills/githubactions.svg
+    summary: CI/CD 與 GitOps 部署自動化。
+    categories: ["cloud"]
+  - name: Google Cloud
+    logo: /images/sections/skills/googlecloud.svg
+    summary: 雲平台服務整合與部署。
+    categories: ["cloud"]
+  - name: AWS
+    logo: /images/sections/skills/amazonwebservices.svg
+    summary: 雲平台服務整合與部署。
+    categories: ["cloud"]
+  - name: GenAI／RAG／MCP
+    icon: "fas fa-robot"
+    summary: 串接 OpenAI／Azure／GCP 模型，開發 Chat、Agent、RAG 與 MCP 功能，含權限與內容審查。
+    categories: ["ai"]
+  - name: Claude Code
+    logo: /images/sections/skills/claude.svg
+    summary: 日常 AI 輔助開發工具，維護 CLAUDE.md 讓 AI 產出符合架構規範。
+    categories: ["ai"]
