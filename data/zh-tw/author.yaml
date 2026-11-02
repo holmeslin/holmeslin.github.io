@@ -1,6 +1,7 @@
 name: "Feng-Chi"
 nickname: "Feng-Chi"
 greeting: "Hi，我是"
+image: "images/author/feng-chi.png"
 contactInfo:
   email: "holmes.lin@gmail.com"
   github: holmeslin

@@ -10,6 +10,9 @@ module:
   mounts:
     - source: static
       target: static
+    # og:image is emitted as a raw URL, so the avatar must also be published as-is
+    - source: assets/images/author
+      target: static/images/author
     - source: ./node_modules/flag-icons/flags
       target: static/flags
     - source: ./node_modules/@fontsource/mulish/files
