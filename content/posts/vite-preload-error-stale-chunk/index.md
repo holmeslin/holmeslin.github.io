@@ -1,5 +1,5 @@
 ---
-title: "部署後舊分頁點不動：用 vite:preloadError 自動救回"
+title: "Vite 部署後舊分頁點不動"
 date: 2026-11-02T12:00:00+08:00
 lastmod: 2026-11-02T12:00:00+08:00
 draft: true
