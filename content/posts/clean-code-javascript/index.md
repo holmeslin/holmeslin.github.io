@@ -1,20 +1,14 @@
 ---
 title: 'Clean Code 系列 - Javascript'
 date: 2020-07-30T08:10:05+08:00
+categories: [software-engineering]
+tags: [clean-code, javascript]
 lastmod: 2020-07-30T08:10:05+08:00
 draft: false
 keywords: ['clean code', 'javascript']
 description: ''
-tags: ['clean code', 'javascript']
-categories: ['學習', '紀錄']
 aliases:
   - /post/2020/07/30/clean-code-javascript/
-menu:
-  sidebar:
-    name: "Clean Code 系列 - Javascript"
-    identifier: clean-code-javascript
-    parent: clean-code
-    weight: 20
 ---
 
 <!--more-->

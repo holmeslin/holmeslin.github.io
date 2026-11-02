@@ -4,14 +4,8 @@ date: {{ .Date }}
 lastmod: {{ .Date }}
 draft: true
 description: ""
-tags: []
-categories: []
-menu:
-  sidebar:
-    name: "{{ replace .File.ContentBaseName "-" " " | title }}"
-    identifier: {{ .File.ContentBaseName }}
-    parent: ""  # one of the sidebar group identifiers in hugo.yaml: go, javascript-web, nginx-server, clean-code, site
-    weight: 10
+categories: []  # exactly one of: backend, frontend, devops, ai, security, software-engineering (content/categories/)
+tags: []        # lowercase-kebab, 1–3, not repeating the category
 ---
 
 <!--more-->
