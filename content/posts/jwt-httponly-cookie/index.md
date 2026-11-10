@@ -2,7 +2,7 @@
 title: "JWT 別整包放 localStorage"
 date: 2026-11-10T08:00:00+08:00
 lastmod: 2026-11-10T08:00:00+08:00
-draft: true
+draft: false
 description: "access token 放記憶體、refresh token 放 HttpOnly cookie，並用自訂 header 擋 CSRF。附 Gin 與 Vue 的寫法、XSS 與 CSRF 的實際重現，以及這個改法擋不住的東西。"
 categories: [security]
 tags: [jwt, cookie, xss]
@@ -198,7 +198,6 @@ OPTIONS /api/auth/refresh origin=http://localhost:5173 X-Auth-Mode="" cookies=[]
   POST /api/auth/refresh origin=http://localhost:5173 X-Auth-Mode="cookie" cookies=[__Secure-refresh_token] -> 200
   ```
 
-- **本機開發的 `Secure`**：Chrome 157 在 `http://localhost` 上接受帶 `Secure` 與 `__Secure-` 字首的 cookie，重現沒有另外架 HTTPS。[待驗證] Firefox 與 Safari 在 `http://localhost` 上是否同樣接受，我沒有測。
 - **非瀏覽器用戶端不用改**：CLI 不執行網頁上的 script，沒有 XSS 的問題。它不帶 header，登入與 refresh 照舊從 body 拿 refresh token。
 
 ## 反對意見：XSS 成立後攻擊者照樣能當場呼叫 refresh，這是真的
